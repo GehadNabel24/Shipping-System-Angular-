@@ -1,0 +1,39 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HomeComponent } from './Components/home/home.component';
+import { LogInComponent } from './Components/log-in/log-in.component';
+import { DashboardComponent } from './Components/dashboard/dashboard.component';
+import { OrderListComponent } from './Components/order-list/order-list.component';
+import { AsideComponent } from './Components/aside/aside.component';
+import { OrderReportComponent } from './Components/order-report/order-report.component';
+import { SharedRoutingModule } from './shared-routing.module';
+import { ChangePasswordComponent } from './Components/change-password/change-password.component';
+
+
+
+
+@NgModule({
+  declarations: [
+    HomeComponent,
+    LogInComponent,
+    DashboardComponent,
+    ChangePasswordComponent,
+    OrderListComponent,
+    OrderReportComponent,
+    AsideComponent
+  ],
+  imports: [
+    CommonModule,
+    SharedRoutingModule
+  ],
+  exports: [
+    HomeComponent,
+    LogInComponent,
+    DashboardComponent,
+    ChangePasswordComponent,
+    OrderListComponent,
+    OrderReportComponent,
+    AsideComponent
+  ]
+})
+export class SharedModule { }
