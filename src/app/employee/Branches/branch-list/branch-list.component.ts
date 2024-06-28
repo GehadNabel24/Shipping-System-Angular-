@@ -6,14 +6,5 @@ import { AccountService } from './../../../shared/Services/account.service';
   templateUrl: './branch-list.component.html',
   styleUrl: './branch-list.component.css'
 })
-export class BranchListComponent implements OnInit {
-  token:any;
-  constructor(
-    public accountservice: AccountService
-  ) {
-  }
-  ngOnInit(): void {
-    this.token =localStorage.getItem('token') ?? this.accountservice.getToken();
-  }
-
+export class BranchListComponent{
 }

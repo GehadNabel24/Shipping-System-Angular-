@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 import { SharedRoutingModule } from './shared/shared-routing.module';
 import { DashboardComponent } from './shared/Components/dashboard/dashboard.component';
+import { HomeComponent } from './shared/Components/home/home.component';
 export const routes: Routes = [
     {
         path: '',
-        component: DashboardComponent
+        component: HomeComponent
     }
     ,
     {

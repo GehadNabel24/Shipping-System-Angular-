@@ -8,7 +8,8 @@ import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { OrderReportComponent } from './Components/order-report/order-report.component';
 
 const routes: Routes = [
-  { path: 'home' , component: DashboardComponent},
+  { path: 'home' , component: HomeComponent},
+  { path: 'dashboard' , component: DashboardComponent},
   { path: 'login' , component: LogInComponent},
   { path: 'change-password' , component: ChangePasswordComponent},
   { path: 'order-list' , component: OrderListComponent},
