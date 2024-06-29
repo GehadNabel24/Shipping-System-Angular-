@@ -11,8 +11,6 @@ export class PermissionsService {
   constructor(private http: HttpClient) { }
   getPermissions():Observable<IPermissionResponse[]> {
     let token = localStorage.getItem('token');
-    console.log(token);
-    console.log(this.apiUrl);
     let options = { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token }) };
     return this.http.get<IPermissionResponse[]>(this.apiUrl, options);
   }
@@ -21,11 +19,10 @@ export class PermissionsService {
     let options = { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token }) };
     return this.http.get<IRoleWithAllClaims>(`${this.apiUrl}/GetPermissionsOnRole/${id}`, options);
   }
-
   searchPermissions(query:string):Observable<IPermissionResponse[]> {
     let token = localStorage.getItem('token');
     let options = { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token }) };
-    return this.http.get<IPermissionResponse[]>(this.apiUrl + query, options);
+    return this.http.get<IPermissionResponse[]>(`${this.apiUrl}/${query}`, options);
   }
   addPermission(permission: any): Observable<IPermission> {
     let token = localStorage.getItem('token');
@@ -35,7 +32,7 @@ export class PermissionsService {
   updatePermission(permission: any): Observable<IPermission> {
     let token = localStorage.getItem('token');
     let options = { headers: new HttpHeaders({ 'Authorization': 'Bearer'+ token }) };
-    return this.http.put<IPermission>(this.apiUrl, permission, options);
+    return this.http.put<IPermission>(`${this.apiUrl}/${permission.id}`, permission, options);
   }
   editPermissionsOnRole(id: string, roleWithClaims: IRoleWithAllClaims): Observable<any> {
     let token = localStorage.getItem('token');
@@ -51,8 +48,7 @@ export class PermissionsService {
     let token = localStorage.getItem('token');
     let options = {
       headers: new HttpHeaders({
-        'Authorization': 'Bearer ' + token,
-        'Content-Type': 'application/json'
+        'Authorization': 'Bearer ' + token
       })
     };
     return this.http.delete<any>(`${this.apiUrl}/${id}`, options);

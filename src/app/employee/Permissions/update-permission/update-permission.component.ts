@@ -3,6 +3,7 @@ import { IClaimsForCheckBox, IRoleWithAllClaims } from '../../../shared/Models/P
 import { ActivatedRoute, Router } from '@angular/router';
 import { PermissionsService } from '../../../shared/Services/permissions.service';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-permission',
@@ -24,7 +25,23 @@ export class UpdatePermissionComponent implements OnInit, OnDestroy {
     this.roleId = this.route.snapshot.paramMap.get('id');
     if (this.roleId) {
       this.permissionsOnRoleSubscription = this.permissionsService.getPermissionById(this.roleId).subscribe(response => {
-        this.roleWithAllClaims = response;
+        if (response && response.allRoleCalims && Array.isArray(response.allRoleCalims.$values)) {
+          this.roleWithAllClaims = {
+            roleId: response.roleId,
+            roleName: response.roleName,
+            allRoleCalims: {
+              $id: response.allRoleCalims.$id,
+              $values: response.allRoleCalims.$values
+            }
+          };
+        } else {
+          console.error('Invalid response format', response);
+          Swal.fire(
+            'عرض !',
+            'حدث خطأ اثناء عرض بيانات هذه الصلاحية',
+            'error'
+          );
+        }
       });
     }
   }
@@ -37,13 +54,13 @@ export class UpdatePermissionComponent implements OnInit, OnDestroy {
 
   onCheckboxChange(displayValue: string, event: Event) {
     const isSelected = (event.target as HTMLInputElement).checked;
-    if (this.roleWithAllClaims) {
-      const role = this.roleWithAllClaims.allRoleCalims.find(c => c.displayValue === displayValue);
+    if (this.roleWithAllClaims && Array.isArray(this.roleWithAllClaims.allRoleCalims.$values)) {
+      const role = this.roleWithAllClaims.allRoleCalims.$values.find(c => c.displayValue === displayValue);
       if (role) {
         role.isSelected = isSelected;
       }
     }
-  }
+  }  
 
   isClaimSelected(role: IClaimsForCheckBox | undefined): boolean {
     return role ? role.isSelected : false;
@@ -51,8 +68,8 @@ export class UpdatePermissionComponent implements OnInit, OnDestroy {
 
   groupClaimsByArabicName() {
     const groupedClaims: { [key: string]: any } = {};
-    if (this.roleWithAllClaims) {
-      this.roleWithAllClaims.allRoleCalims.forEach(claim => {
+    if (this.roleWithAllClaims && Array.isArray(this.roleWithAllClaims.allRoleCalims.$values)) {
+      this.roleWithAllClaims.allRoleCalims.$values.forEach(claim => {
         const arabicName = claim.arabicName || 'Unknown';
         if (!groupedClaims[arabicName]) {
           groupedClaims[arabicName] = {};
@@ -71,13 +88,18 @@ export class UpdatePermissionComponent implements OnInit, OnDestroy {
     }
     return Object.values(groupedClaims);
   }
-
+  
   saveChanges() {
     if (this.roleWithAllClaims && this.roleId) {
       this.permissionsService.editPermissionsOnRole(this.roleId, this.roleWithAllClaims).subscribe(response => {
-        console.log('Roles updated successfully');
+        this.router.navigate(['/employee/permission']);
       }, error => {
         console.error('Error updating roles', error);
+        Swal.fire(
+          'تعديل !',
+          'حدث خطأ اثناء تعديل هذه الصلاحية',
+          'error'
+        );
       });
     }
   }

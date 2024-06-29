@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class WeightSettingService {
-  apiUrl: string = 'http://localhost:37667/api/Administration';
+  apiUrl: string = 'http://localhost:37667/api/WeightSetting';
   constructor(private http: HttpClient) { }
   getWeightSetting(): Observable<IWeightSetting> {
     const token = localStorage.getItem('token');

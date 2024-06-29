@@ -1,5 +1,5 @@
 <div class="role-management" *ngIf="roleWithAllClaims">
-    <h2>إدارة الصلاحيات</h2>
+    <h2 class="text-end my-4">إدارة الصلاحيات - {{roleWithAllClaims.roleName}}</h2>
     <table>
       <thead>
         <tr>
@@ -39,8 +39,8 @@
       </tbody>
     </table>
     <div class="buttons">
-      <button (click)="saveChanges()">حفظ التعديلات</button>
-      <button (click)="cancelChanges()">إلغاء</button>
+      <button class="btn submit"(click)="saveChanges()">حفظ التعديلات</button>
+      <button type="button" class="btn cancel" (click)="cancelChanges()">إلغاء</button>
     </div>
   </div>
   

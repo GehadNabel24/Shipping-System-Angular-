@@ -12,10 +12,10 @@
             </div>
             <div class="form-group d-flex flex-row gap-2">
                 <div class="d-flex align-content-center align-items-center">
-                    <label for="additionCost">وسعر كل كجم اضافي</label>
+                    <label for="addition_Cost">وسعر كل كجم اضافي</label>
                 </div>
                 <div class="input d-flex flex-column gap-2">
-                    <input class="form-control my-2 w-10" name="additionCost" formControlName="additionCost" type="number" id="additionCost">
+                    <input class="form-control my-2 w-10" name="addition_Cost" formControlName="addition_Cost" type="number" id="additionCost">
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                     الوزن الافتراضي مطلوب
                 </div>
                 <div *ngIf="getStandaredWeight.hasError('min')" id="emailHelp" class="form-text text-danger">
-                    الوزن الافتراضي يجب أن يكون على الأقل 10
+                    الوزن الافتراضي يجب أن يكون على الأقل 1
                 </div>
             </ng-container>
             <ng-container *ngIf="getAdditionCost.touched">
@@ -33,7 +33,7 @@
                     السعر الاضافي مطلوب
                 </div>
                 <div *ngIf="getAdditionCost.hasError('min')" id="emailHelp" class="form-text text-danger">
-                    السعر الاضافي يجب أن يكون على الأقل 100
+                    السعر الاضافي يجب أن يكون على الأقل 10
                 </div>
             </ng-container>
         </div>

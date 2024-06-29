@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PermissionsService } from '../../../shared/Services/permissions.service';
 import { IPermission } from '../../../shared/Models/Permissions/permission';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-permission',
@@ -47,23 +48,33 @@ export class AddPermissionComponent implements OnInit,OnDestroy {
       const permission: any = this.PermisstionData.value;
       if (this.permissionId && this.permissionId !== '0') {
         permission.id = this.permissionId; 
+        let date=new Date();
+        permission.date = date.toLocaleString(); 
         this.updateSubscription = this.permissionsService.updatePermission(permission).subscribe({
           next: () => {
-            console.log('Permission updated successfully');
             this.router.navigate(['/employee/permission']);
           },
           error: (err) => {
+            Swal.fire(
+              'تعديل !',
+              'حدث خطأ اثناء تعديل هذه الصلاحية',
+              'error'
+            );
             console.error('Error updating permission', err);
           }
         })
       } else {
         this.addSubscription = this.permissionsService.addPermission(permission).subscribe({
           next: () => {
-            console.log('Permission added successfully');
             this.router.navigate(['/employee/permission']);
           },
           error: (err) => {
             console.error('Error adding permission', err);
+            Swal.fire(
+              'اضافة !',
+              'حدث خطأ اثناء اضافة هذه الصلاحية',
+              'error'
+            );
           }
         })
       }

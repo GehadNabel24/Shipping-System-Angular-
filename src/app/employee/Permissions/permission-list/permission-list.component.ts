@@ -21,21 +21,33 @@ export class PermissionListComponent implements OnInit,OnDestroy {
   }
   getPermissions(): void {
     this.PermissionSubscription = this.permissionsService.getPermissions().subscribe({
-      next: (response: IPermissionResponse[]) => {
-        this.permissions = response[0].$values;
+      next: (response: any) => {
+        this.permissions = response.$values;
       },
       error: (err) => {
+        Swal.fire(
+          'عرض !',
+          'حدث خطأ في عرض الصلاحيات',
+          'error'
+        );
         console.log(err.message);
       }
     });
   }
   onSearch(query: string): void {
     if (query.trim() !== '') {
+      console.log('Searching for:', query);
       this.permissionsService.searchPermissions(query).subscribe({
-        next: (response: IPermissionResponse[]) => {
-          this.permissions = response[0].$values;
+        next: (response: any) => {
+          console.log(response);
+          this.permissions = response.$values;
         },
         error: (err) => {
+          Swal.fire(
+            'بحث !',
+            'حدث خطأ في البحث عن هذه الصلاحية',
+            'error'
+          );
           console.error('Error searching permissions', err);
         }
       });
@@ -45,26 +57,32 @@ export class PermissionListComponent implements OnInit,OnDestroy {
   }
   deletePermission(id: string): void {
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'You won\'t be able to revert this!',
+      title: 'هل انت متأكد',
+      text: 'سيتم حذف هذا الصلاحيه',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'نعم, قم بالحذف',
+      cancelButtonText: 'لا, الغاء',
     }).then((result) => {
       if (result.isConfirmed) {
         this.PermissionDeleteSubscription = this.permissionsService.deleteRole(id).subscribe({
           next: () => {
             this.permissions = this.permissions.filter(p => p.id !== id);
             Swal.fire(
-              'Deleted!',
-              'This Permission has been deleted.',
+              'حذف صلاحية!',
+              'تم حذف هذه الصلاحية.',
               'success'
             );
           },
           error: (err) => {
-            console.log("error",err);
+            Swal.fire(
+              'حذف صلاحية!',
+              'لم يتم حذف هذه الصلاحية.',
+              'error'
+            );
+            console.log("error",err.message);
           }
         });
       }

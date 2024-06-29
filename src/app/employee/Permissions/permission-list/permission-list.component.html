@@ -31,7 +31,8 @@
             <td>{{item.roleName}}</td>
             <td>{{item.date}}</td>
             <td>
-              <a [routerLink]="['/employee/permission', item.id]" class="btn text-primary"><i class="bi bi-pencil"></i></a>
+              <a [routerLink]="['/employee/permission/form', item.id]" class="btn text-primary"><i class="bi bi-pencil"></i></a>
+              <a [routerLink]="['/employee/permission', item.id]" class="btn text-secondary"><i class="bi bi-pencil-square"></i></a>
               <a (click)="deletePermission(item.id)" class="btn text-danger"><i class="bi bi-trash"></i></a>
             </td>
           </tr>
