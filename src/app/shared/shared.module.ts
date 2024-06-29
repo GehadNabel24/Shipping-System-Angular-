@@ -8,6 +8,7 @@ import { AsideComponent } from './Components/aside/aside.component';
 import { OrderReportComponent } from './Components/order-report/order-report.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { ChangePasswordComponent } from './Components/change-password/change-password.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -24,7 +25,8 @@ import { ChangePasswordComponent } from './Components/change-password/change-pas
   ],
   imports: [
     CommonModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    ReactiveFormsModule
   ],
   exports: [
     HomeComponent,
