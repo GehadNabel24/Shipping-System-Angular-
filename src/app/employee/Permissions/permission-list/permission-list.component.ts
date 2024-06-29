@@ -59,7 +59,7 @@ export class PermissionListComponent implements OnInit,OnDestroy {
             this.permissions = this.permissions.filter(p => p.id !== id);
             Swal.fire(
               'Deleted!',
-              'This category has been deleted.',
+              'This Permission has been deleted.',
               'success'
             );
           },
