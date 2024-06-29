@@ -42,3 +42,13 @@
     color: #2e2c2c;
     padding: 10px;
 }
+
+@media screen and (max-width: 900px) {
+    .aside a,.aside h4{
+       display: none !important; 
+    }
+    .aside{
+        padding-top: 20px;
+        padding-right: 0px;
+    }
+  }

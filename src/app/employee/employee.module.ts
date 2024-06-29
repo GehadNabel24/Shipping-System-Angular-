@@ -19,6 +19,7 @@ import { AddPermissionComponent } from './Permissions/add-permission/add-permiss
 import { UpdatePermissionComponent } from './Permissions/update-permission/update-permission.component';
 import { SharedRoutingModule } from '../shared/shared-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     EmployeeRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class EmployeeModule { }
