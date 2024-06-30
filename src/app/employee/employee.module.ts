@@ -19,7 +19,11 @@ import { AddPermissionComponent } from './Permissions/add-permission/add-permiss
 import { UpdatePermissionComponent } from './Permissions/update-permission/update-permission.component';
 import { SharedRoutingModule } from '../shared/shared-routing.module';
 import { SharedModule } from '../shared/shared.module';
-
+import { HttpClientModule } from '@angular/common/http';
+import { EmployeeService } from '../shared/Services/employee.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SearchPipe } from '../shared/pipe/search.pipe';
+import { PaginationPipe } from '../shared/pipe/pagination.pipe';
 
 @NgModule({
   declarations: [
@@ -38,12 +42,19 @@ import { SharedModule } from '../shared/shared.module';
     WightSettingComponent,
     PermissionListComponent,
     AddPermissionComponent,
-    UpdatePermissionComponent
+    UpdatePermissionComponent,
+    PaginationPipe
   ],
   imports: [
     CommonModule,
     EmployeeRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SearchPipe
+  ],
+  providers: [EmployeeService]
+
 })
 export class EmployeeModule { }
