@@ -1,4 +1,4 @@
-import { IEmployeeData } from '../models/Employees';
+import { getAllBranch } from '../models/branch';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
@@ -7,8 +7,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SearchPipe implements PipeTransform {
 
-  transform(employees: IEmployeeData[], term: string) : IEmployeeData[]{
-    return employees.filter((employee => employee.name.toLocaleLowerCase().includes(term.toLocaleLowerCase())));
+
+  transform(products: getAllBranch[], term: string): getAllBranch[] {
+    return products.filter((product)=>product.name.toLowerCase().includes(term.toLowerCase()));
   }
+
 
 }
