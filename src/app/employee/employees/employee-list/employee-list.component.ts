@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IEmployeeData } from '../../../shared/models/Employees';
 import { EmployeeService } from '../../../shared/Services/employee.service';
 import Swal from 'sweetalert2';
 import {  Router } from '@angular/router';
+import { IEmployeeData } from '../../../shared/Models/Employees';
 
 @Component({
   selector: 'app-employee-list',

@@ -51,8 +51,8 @@
             <th>الأكشن</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let employee of employeesData | search: searchterm">
+        <tbody><!-- | search: searchterm -->
+          <tr *ngFor="let employee of employeesData ">
           <!-- <tr *ngFor="let employee of employeesData | search: searchterm | pagination: recordLimit"> -->
             <td>{{ employee.name }}</td>
             <td>{{ employee.email }}</td>

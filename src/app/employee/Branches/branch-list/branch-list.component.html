@@ -49,9 +49,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let branch of branchData | search: searchterm | pagination: recordLimit">
+        <!-- | pagination: recordLimit -->
+        <tr *ngFor="let branch of branchData | search: searchterm ">
           <td>{{ branch.name }}</td>
-          <td>{{ branch.date | date : "short" }}</td>
+          <!-- <td>{{ branch.date | date : "short" }}</td> -->
           <!-- Adjusted for date formatting -->
           <td>
             <div class="form-check form-switch">

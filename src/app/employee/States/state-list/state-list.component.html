@@ -48,10 +48,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let state of stateData | search: searchterm">
+          <!-- | search: searchterm -->
+          <tr *ngFor="let state of stateData ">
             <td>{{ state.name }}</td>
             <td>
-              <div class="form-check form-switch">
+              <!-- <div class="form-check form-switch">
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -59,7 +60,7 @@
                   id="flexSwitchCheckChecked"
                   [checked]="state.status"
                 />
-              </div>
+              </div> -->
             </td>
             <td>
               <a class="btn text-danger" (click)="viewState(state.id)">

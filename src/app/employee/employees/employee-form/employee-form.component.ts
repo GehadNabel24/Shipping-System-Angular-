@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../../../shared/Services/employee.service';
 import Swal from 'sweetalert2';
-import { IEmployeeData } from '../../../shared/models/Employees';
+import { IEmployeeData } from '../../../shared/Models/Employees';
 
 @Component({
     selector: 'app-employee-form',
