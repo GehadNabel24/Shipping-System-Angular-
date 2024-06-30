@@ -17,14 +17,15 @@ import { CityListComponent } from './Cities/city-list/city-list.component';
 import { WightSettingComponent } from './Weight/wight-setting/wight-setting.component';
 import { PermissionListComponent } from './Permissions/permission-list/permission-list.component';
 import { AddPermissionComponent } from './Permissions/add-permission/add-permission.component';
-import { UpdatePermissionComponent } from './Permissions/update-permission/update-permission.component';
-import { SharedRoutingModule } from '../shared/shared-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from '../shared/Services/employee.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchPipe } from '../shared/pipe/search.pipe';
 import { PaginationPipe } from '../shared/pipe/pagination.pipe';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -43,8 +44,7 @@ import { PaginationPipe } from '../shared/pipe/pagination.pipe';
     WightSettingComponent,
     PermissionListComponent,
     AddPermissionComponent,
-    UpdatePermissionComponent,
-    PaginationPipe
+    UpdatePermissionComponent
   ],
   imports: [
     CommonModule,
@@ -53,9 +53,12 @@ import { PaginationPipe } from '../shared/pipe/pagination.pipe';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SearchPipe
+    SearchPipe,
+    MatIconModule
   ],
-  providers: [EmployeeService]
+  providers: [EmployeeService],
+
+  exports: [RouterModule]
 
 })
 export class EmployeeModule { }

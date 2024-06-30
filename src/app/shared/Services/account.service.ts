@@ -3,7 +3,7 @@ import { Injectable ,OnInit} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { loginData } from '../Models/loginData';
-import jwt_deocde from 'jwt-decode';
+
 import { Router } from '@angular/router';
 import { IchangePassword } from '../Models/IchangePassword';
 
