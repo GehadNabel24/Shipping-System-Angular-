@@ -16,7 +16,6 @@ export class PermissionListComponent implements OnInit,OnDestroy {
   PermissionDeleteSubscription: any;
   constructor(public permissionsService: PermissionsService) {}
   ngOnInit(): void {
-    localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijc2Zjg2MDczLWI1MWMtNDdjNC1iN2ZhLTczMTYyODA1NWViYiIsImV4cCI6MTcxOTc3MzI0OH0.bE9i62cWj_eFIABGD06YQ0J0y2MfiZ656W47Kn51-oA");
     this.getPermissions();
   }
   getPermissions(): void {
