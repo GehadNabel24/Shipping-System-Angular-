@@ -1,3 +1,4 @@
+import { CityService } from './../shared/Services/city.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeeRoutingModule } from './employee-routing.module';
@@ -19,7 +20,14 @@ import { AddPermissionComponent } from './Permissions/add-permission/add-permiss
 import { UpdatePermissionComponent } from './Permissions/update-permission/update-permission.component';
 import { SharedRoutingModule } from '../shared/shared-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { BranchService } from '../shared/Services/branch.service';
+import { HttpClientModule } from '@angular/common/http';
+import { SearchPipe } from '../shared/pipe/search.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { PaginationPipe } from '../shared/pipe/pagination.pipe';
+import { GovernmentService } from '../shared/Services/government.service';
+import { CitySearchPipe } from '../shared/pipe/citysearch.pipe';
 
 @NgModule({
   declarations: [
@@ -38,12 +46,20 @@ import { SharedModule } from '../shared/shared.module';
     WightSettingComponent,
     PermissionListComponent,
     AddPermissionComponent,
-    UpdatePermissionComponent
+    UpdatePermissionComponent,
+    PaginationPipe
   ],
   imports: [
     CommonModule,
     EmployeeRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+    HttpClientModule ,
+    SearchPipe ,  
+    CitySearchPipe,  
+    FormsModule,
+    ReactiveFormsModule   
+
+  ],
+  providers: [BranchService,GovernmentService,CityService]
 })
 export class EmployeeModule { }
