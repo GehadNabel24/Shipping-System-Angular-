@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AccountService } from '../../Services/account.service';
+import { ApiService } from '../../Services/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,16 +9,21 @@ import { AccountService } from '../../Services/account.service';
 })
 export class DashboardComponent {
 
-  constructor( private accountService:AccountService){}
+  constructor(private apiService:ApiService, private accountService:AccountService){}
 
   getroles(){
-    this.accountService.test().subscribe({
-      next: (res) => {
-       console.log(res);
-      },
-      error: (err) => {
-        console.log(err)
-      },
-  })
+ this.apiService.get<any>('/Administration').subscribe({
+  next:(res)=>{
+    console.log(res);
+  },
+  error:(err)=>{
+    console.log(err);
+  }
+ })
 }
+
+
+
+
+
 }

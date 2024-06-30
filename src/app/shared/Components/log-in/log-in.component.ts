@@ -3,6 +3,7 @@ import { AccountService } from './../../Services/account.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { loginData } from '../../Models/loginData';
+import { ApiService } from '../../Services/api.service';
 
 @Component({
   selector: 'app-log-in',
@@ -16,7 +17,7 @@ export class LogInComponent{
   showPassword=false
 
 
-  constructor( private accountService:AccountService,private router:Router){}
+  constructor(private apiService:ApiService,private router:Router){}
 
 
   loginForm=new FormGroup({
@@ -34,19 +35,22 @@ export class LogInComponent{
 
     }
 
-    this.accountService.Login_Account(data).subscribe({
+
+
+    this.apiService.post<any,loginData>('/Account/Login',data).subscribe({
       next: (res) => {
-        this.isValid=true
-        this.accountService.handleLogin(res)
+        console.log(res);
+        localStorage.setItem('token', res.user.token);
+        localStorage.setItem('userID', res.user.userID);
+        localStorage.setItem('userName', res.user.userName);
+        localStorage.setItem('role', res.user.role);
+        this.router.navigate(['/employee/dashboard']);
       },
       error: (err) => {
-        this.isValid=false
-        console.log(err)
+        console.log(err);
       },
-
-
-
     })
+
   }
 
 
