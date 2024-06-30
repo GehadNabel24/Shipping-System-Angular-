@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BranchService } from '../../../shared/Services/branch.service';
 import { Branch, getAllBranch } from '../../../shared/models/branch';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-branch-list',
@@ -17,44 +18,93 @@ export class BranchListComponent implements OnInit {
   id: 0,
   name: '',
   stateId:0,
-  status:true
 
 
   }
   constructor(private _BranchService: BranchService,private _Router:Router) {}
 
   ngOnInit(): void {
-    this._BranchService.getBranches().subscribe({
-      next: (response) => {
-        this.branchData = response;
-        console.log(this.branchData);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.loadBranches();
   }
-  deleteBranch(id: number) {
-    this._BranchService.deleteBranch(id).subscribe({
-      next: () => {
-        console.log(`Branch with id ${id} deleted successfully`);
-        this.branchData = this.branchData.filter(branch => branch.id !== id);
+
+  loadBranches(): void {
+    this._BranchService.getBranches().subscribe(
+      branches => {
+        this.branchData = branches;
+        console.log(this.branchData)
+        if (this.branchData.length === 0) {
+          this.showServerNotWorkingAlert();
+        }
       },
-      error: (err) => {
-        console.error(`Error deleting branch with id ${id}`, err);
+      error => {
+        console.error('Error loading branches:', error);
+        this.showApiConnectionErrorAlert();
       }
-    });
+    );
   }
-  updateBranchStatus(id:number)
-  {
-    this._BranchService.updateBranchById(id, this.branch).subscribe({
-      next: (response) => {
-        console.log('Branch updated successfully', response);
-        this._Router.navigate(['/employee/branch']);
-      },
-      error: (err) => {
-        console.error('Error updating branch', err);
-      },
-    });
+  updateStatus(event: any,id:number): void {
+    const checkbox = event.target as HTMLInputElement;
+    if (!checkbox) return;
+
+    const checked = checkbox.checked;
+
+    if (id === undefined) {
+      console.error('Could not find data-branch-id attribute or it is not valid.');
+      return;
+    }
+
+    const branchToUpdate = this.branchData.find(branch => branch.id === id);
+    if (branchToUpdate) {
+      branchToUpdate.status = checked;
+      this._BranchService.updateBranchById(id, branchToUpdate).subscribe(
+        updatedBranch => {
+          this.showStatusChangeSuccessAlert();
+          console.log('Status updated successfully:', updatedBranch);
+        },
+        error => {
+          this.showStatusChangeErrorAlert();
+          console.error('Error updating status:', error);
+        }
+      );
+    }
   }
+
+  deleteBranch(id: number): void {
+    this._BranchService.deleteBranch(id).subscribe(
+      () => {
+        this.showDeleteSuccessAlert();
+        console.log('Branch deleted successfully');
+        this.loadBranches(); // Optionally refresh data after delete
+      },
+      error => {
+        this.showDeleteErrorAlert();
+        console.error('Error deleting branch:', error);
+      }
+    );
+  }
+
+  private showStatusChangeSuccessAlert(): void {
+    Swal.fire('Success', 'Branch status changed successfully!', 'success');
+  }
+
+  private showStatusChangeErrorAlert(): void {
+    Swal.fire('Error', 'Failed to change branch status.', 'error');
+  }
+
+  private showDeleteSuccessAlert(): void {
+    Swal.fire('Success', 'Branch deleted successfully!', 'success');
+  }
+
+  private showDeleteErrorAlert(): void {
+    Swal.fire('Error', 'Failed to delete branch.', 'error');
+  }
+
+  private showApiConnectionErrorAlert(): void {
+    Swal.fire('Error', 'Failed to connect to the API.', 'error');
+  }
+
+  private showServerNotWorkingAlert(): void {
+    Swal.fire('Server Issue', 'Server is not responding.', 'warning');
+  }
+
 }

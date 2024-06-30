@@ -52,7 +52,7 @@
               | pagination : recordLimit -->
         <tr
           *ngFor="
-            let city of cityData
+            let city of cityData| citysearch : searchterm| pagination : recordLimit
              
           "
         >

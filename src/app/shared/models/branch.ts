@@ -4,11 +4,11 @@ export interface getAllBranch {
   isDeleted: boolean;
   status: boolean;
   stateId:number;
+  date:string;
 }
 export interface Branch {
   id: number;
   name: string;
   stateId:number;
-  status:boolean
 }
 

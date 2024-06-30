@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../shared/Services/api.service';
-import { IGovernmentDTO } from '../../../shared/Models/IGovernmentDTO';
-import { IMerchantDTO } from '../../../shared/Models/IMerchant';
-import { ICityDTO } from '../../../shared/Models/ICityDTO';
+import { IGovernmentDTO } from '../../../shared/models/IGovernmentDTO';
+import { IMerchantDTO } from '../../../shared/models/IMerchant';
+import { ICityDTO } from '../../../shared/models/ICityDTO';
 
 @Component({
   selector: 'app-merchant-form',

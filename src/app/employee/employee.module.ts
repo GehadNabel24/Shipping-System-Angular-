@@ -1,3 +1,4 @@
+import { PaginationPipe } from './../shared/pipe/pagination.pipe';
 import { CityService } from './../shared/Services/city.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from '../shared/Services/employee.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchPipe } from '../shared/pipe/search.pipe';
-import { PaginationPipe } from '../shared/pipe/pagination.pipe';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
@@ -26,39 +26,40 @@ import { PermissionListComponent } from './Permissions/permission-list/permissio
 import { AddPermissionComponent } from './Permissions/add-permission/add-permission.component';
 import { UpdatePermissionComponent } from './Permissions/update-permission/update-permission.component';
 import { EmployeeRoutingModule } from './employee-routing.module';
+import { CitySearchPipe } from "../shared/pipe/citysearch.pipe";
 
 @NgModule({
-  declarations: [
-    EmployeeListComponent,
-    EmployeeFormComponent,
-    DeliveryListComponent,
-    DeliveryFormComponent,
-    MerchantListComponent,
-    MerchantFormComponent,
-    StateFormComponent,
-    StateListComponent,
-    BranchListComponent,
-    BranchFormComponent,
-    CityFormComponent,
-    CityListComponent,
-    WightSettingComponent,
-    PermissionListComponent,
-    AddPermissionComponent,
-    UpdatePermissionComponent
-  ],
-  imports: [
-    CommonModule,
-    EmployeeRoutingModule,
-    SharedModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SearchPipe,
-    MatIconModule
-  ],
-  providers: [EmployeeService],
-
-  exports: [RouterModule]
-
+    declarations: [
+        EmployeeListComponent,
+        EmployeeFormComponent,
+        DeliveryListComponent,
+        DeliveryFormComponent,
+        MerchantListComponent,
+        MerchantFormComponent,
+        StateFormComponent,
+        StateListComponent,
+        BranchListComponent,
+        BranchFormComponent,
+        CityFormComponent,
+        CityListComponent,
+        WightSettingComponent,
+        PermissionListComponent,
+        AddPermissionComponent,
+        UpdatePermissionComponent,
+        PaginationPipe
+    ],
+    providers: [EmployeeService],
+    exports: [RouterModule],
+    imports: [
+        CommonModule,
+        EmployeeRoutingModule,
+        SharedModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SearchPipe,
+        MatIconModule,
+        CitySearchPipe
+    ]
 })
 export class EmployeeModule { }

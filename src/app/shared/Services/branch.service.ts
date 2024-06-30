@@ -25,7 +25,7 @@ export class BranchService {
     return this.http.put<Branch>(`${this.baseUrl}/${id}`, branch);
   }
  
-  addBranch(branch: getAllBranch): Observable<any> {
+  addBranch(branch: Branch): Observable<any> {
     return this.http.post(this.baseUrl, branch);
   }
   deleteBranch(id: number): Observable<any> {

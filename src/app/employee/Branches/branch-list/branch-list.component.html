@@ -50,9 +50,9 @@
       </thead>
       <tbody>
         <!-- | pagination: recordLimit -->
-        <tr *ngFor="let branch of branchData | search: searchterm ">
+        <tr *ngFor="let branch of branchData | search: searchterm| pagination: recordLimit ">
           <td>{{ branch.name }}</td>
-          <!-- <td>{{ branch.date | date : "short" }}</td> -->
+          <td>{{ branch.date | date : "short" }}</td> 
           <!-- Adjusted for date formatting -->
           <td>
             <div class="form-check form-switch">
@@ -62,6 +62,8 @@
                 role="switch"
                 id="flexSwitchCheckChecked"
                 [checked]="branch.status"
+                (change)="updateStatus($event,branch.id)"
+
               />
             </div>
           </td>
