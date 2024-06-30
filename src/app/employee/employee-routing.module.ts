@@ -38,7 +38,7 @@ const routes: Routes = [
   // ----------------------------------------------------------- //
   { path: 'permission' , component: PermissionListComponent },
   { path: 'permission/:id' , component: UpdatePermissionComponent },
-  { path: 'permission/add' , component: AddPermissionComponent },
+  { path: 'permission/form/:id' , component: AddPermissionComponent },
   // ----------------------------------------------------------- //
   { path: 'weight' , component: WightSettingComponent }
 ];
