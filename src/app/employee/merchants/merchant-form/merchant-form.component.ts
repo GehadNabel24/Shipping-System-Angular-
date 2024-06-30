@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IMerchantDTO } from '../../../shared/Models/IMerchant';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../shared/Services/api.service';
-import { Router } from '@angular/router';
 import { IGovernmentDTO } from '../../../shared/Models/IGovernmentDTO';
+import { IMerchantDTO } from '../../../shared/Models/IMerchant';
 import { ICityDTO } from '../../../shared/Models/ICityDTO';
-
 
 @Component({
   selector: 'app-merchant-form',
   templateUrl: './merchant-form.component.html',
-  styleUrl: './merchant-form.component.css'
+  styleUrls: ['./merchant-form.component.css'] // Corrected styleUrl to styleUrls
 })
 export class MerchantFormComponent implements OnInit {
 
   merchant: IMerchantDTO = {} as IMerchantDTO;
-  governments :IGovernmentDTO[]=[];
-  cities:ICityDTO[]=[];
-  govID:number=0;
+  merchantID: string = '';
+  governments: IGovernmentDTO[] = [];
+  cities: ICityDTO[] = [];
+  govID: number = 0;
 
-  merchantForm: FormGroup= new FormGroup({
+  merchantForm: FormGroup = new FormGroup({
     id: new FormControl(null),
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [
@@ -45,68 +45,81 @@ export class MerchantFormComponent implements OnInit {
     refusedOrderPercent: new FormControl(0)
   });
 
-  constructor(private apiService:ApiService,private router:Router){}
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
   ngOnInit(): void {
+    this.loadGovernments();
 
-        this.apiService.get<any>('/Government').subscribe({
-          next:(res)=>{
-            this.governments=res.$values as IGovernmentDTO[];
-            console.log( this.governments);
-          },
-          error:(err)=>{
-            console.log(err);
-          }
-        })
-
-
+    this.activatedRoute.params.subscribe(paramsObject => {
+      this.merchantID = paramsObject['id'];
+      if (this.merchantID) {
+        this.loadMerchant(this.merchantID);
+      }
+    });
   }
 
-
-  onGovChange(govid:number):void{
-    console.log(govid);
-if(govid != 0){
-    this.govID=govid;
-    this.apiService.get<any>(`/City/government/${this.govID}`).subscribe({
-      next:(res)=>{
-        this.cities=res.$values as ICityDTO[];
-        console.log( this.cities);
+  loadGovernments(): void {
+    this.apiService.get<any>('/Government').subscribe({
+      next: (res) => {
+        this.governments = res.$values as IGovernmentDTO[];
+        console.log(this.governments);
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err);
       }
-    })
-
-  }
+    });
   }
 
+  loadMerchant(id: string): void {
+    this.apiService.get<any>(`/Merchant/${id}`).subscribe({
+      next: (res) => {
+        this.merchant = res as IMerchantDTO;
+        this.merchantForm.patchValue(this.merchant);
+        console.log(this.merchant);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
 
-
-
-
-
+  onGovChange(govid: number): void {
+    console.log(govid);
+    if (govid !== 0) {
+      this.govID = govid;
+      this.apiService.get<any>(`/City/government/${this.govID}`).subscribe({
+        next: (res) => {
+          this.cities = res.$values as ICityDTO[];
+          console.log(this.cities);
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+  }
 
   onSubmit(): void {
     if (this.merchantForm.valid) {
       this.merchant = this.merchantForm.value;
-    this.apiService.post<any,IMerchantDTO>('/Merchant',this.merchant).subscribe({
-          next:(res)=>{
-            console.log(res);
-            this.router.navigateByUrl('/employee/merchant');
-          },
-          error:(err)=>{
-            console.log(err);
-          }
-    })
+      this.apiService.post<any, IMerchantDTO>('/Merchant', this.merchant).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.router.navigateByUrl('/employee/merchant');
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
       console.log(this.merchantForm.value);
     } else {
       // Handle form errors
       console.log('Form is invalid');
     }
   }
-
-
-
-
-
 
 }
