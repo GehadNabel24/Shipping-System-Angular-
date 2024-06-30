@@ -19,6 +19,9 @@ import { AddPermissionComponent } from './Permissions/add-permission/add-permiss
 import { UpdatePermissionComponent } from './Permissions/update-permission/update-permission.component';
 import { SharedRoutingModule } from '../shared/shared-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { routes } from '../app.routes';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -38,12 +41,16 @@ import { SharedModule } from '../shared/shared.module';
     WightSettingComponent,
     PermissionListComponent,
     AddPermissionComponent,
-    UpdatePermissionComponent
+
   ],
   imports: [
     CommonModule,
     EmployeeRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+    ReactiveFormsModule,
+    RouterModule.forRoot(routes)
+  ],
+  exports: [RouterModule]
+
 })
 export class EmployeeModule { }

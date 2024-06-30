@@ -1,1 +1,31 @@
-<p>delivery-list works!</p>
+<!-- src/app/view-deliveries/view-deliveries.component.html -->
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>البريد الإلكتروني</th>
+        <th>رقم الهاتف</th>
+        <th>الفرع</th>
+        <th>الحالة</th>
+        <th>العمليات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let delivery of deliveries">
+        <td>{{ delivery.name }}</td>
+        <td>{{ delivery.email }}</td>
+        <td>{{ delivery.phone }}</td>
+        <td>{{ delivery.branchId }}</td>
+        <td>
+          <input type="checkbox" [checked]="delivery.status" (change)="changeStatus(delivery.id!, $event)">
+        </td>
+        <td>
+          <button (click)="deleteDelivery(delivery.id!)">حذف</button>
+          <button [routerLink]="['/add-update-delivery', delivery.id]">تعديل</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button [routerLink]="['/add-update-delivery', 0]">أضف مندوب</button>
+</div>

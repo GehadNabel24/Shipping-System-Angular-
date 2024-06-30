@@ -1,1 +1,43 @@
-<p>delivery-form works!</p>
+<!-- src/app/add-update-delivery/add-update-delivery.component.html -->
+<div class="form-container">
+  <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">الاسم</label>
+      <input id="name" formControlName="name" type="text">
+    </div>
+    <div>
+      <label for="email">البريد الإلكتروني</label>
+      <input id="email" formControlName="email" type="email">
+    </div>
+    <div>
+      <label for="phone">رقم الهاتف</label>
+      <input id="phone" formControlName="phone" type="text">
+    </div>
+    <div>
+      <label for="branchId">الفرع</label>
+      <input id="branchId" formControlName="branchId" type="text">
+    </div>
+    <div>
+      <label for="government">المحافظة</label>
+      <input id="government" formControlName="government" type="text">
+    </div>
+    <div>
+      <label for="address">العنوان</label>
+      <input id="address" formControlName="address" type="text">
+    </div>
+    <div>
+      <label for="discountType">نوع الخصم</label>
+      <input id="discountType" formControlName="discountType" type="text">
+    </div>
+    <div>
+      <label for="companyPercent">نسبة الشركة</label>
+      <input id="companyPercent" formControlName="companyPercent" type="number">
+    </div>
+    <div>
+      <label for="status">الحالة</label>
+      <input id="status" formControlName="status" type="checkbox">
+    </div>
+    <button type="submit">اضافة مندوب</button>
+  </form>
+  <button (click)="router.navigate(['/view-deliveries'])">عودة إلى الخلف</button>
+</div>

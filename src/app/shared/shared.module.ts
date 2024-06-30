@@ -8,8 +8,9 @@ import { AsideComponent } from './Components/aside/aside.component';
 import { OrderReportComponent } from './Components/order-report/order-report.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { ChangePasswordComponent } from './Components/change-password/change-password.component';
-
-
+import { PasswordService } from './Services/password.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -24,7 +25,9 @@ import { ChangePasswordComponent } from './Components/change-password/change-pas
   ],
   imports: [
     CommonModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   exports: [
     HomeComponent,
@@ -33,7 +36,9 @@ import { ChangePasswordComponent } from './Components/change-password/change-pas
     ChangePasswordComponent,
     OrderListComponent,
     OrderReportComponent,
-    AsideComponent
-  ]
+    AsideComponent,
+    ReactiveFormsModule
+  ],
+  providers: [PasswordService]
 })
 export class SharedModule { }
