@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Delivery } from '../Models/Delivery/delivery';
+import { Delivery, IDelivery } from '../Models/Delivery/delivery';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +12,12 @@ export class DeliveryService {
 
   constructor(private http: HttpClient) { }
 
-  getAllDeliveries(): Observable<Delivery[]> {
-    return this.http.get<Delivery[]>(`${this.apiUrl}/GetAllDeliveries`);
+  getAllDeliveries(): Observable<IDelivery[]> {
+    return this.http.get<IDelivery[]>(`${this.apiUrl}`);
   }
 
-  getDeliveryById(id: string): Observable<Delivery> {
-    return this.http.get<Delivery>(`${this.apiUrl}/GetById/${id}`);
+  getDeliveryById(id: string): Observable<IDelivery> {
+    return this.http.get<IDelivery>(`${this.apiUrl}/${id}`);
   }
 
   addDelivery(delivery: Delivery): Observable<Delivery> {
@@ -28,7 +28,7 @@ export class DeliveryService {
     return this.http.put<Delivery>(`${this.apiUrl}/EditDelivery/${id}`, delivery);
   }
 
-  deleteDelivery(id: string): Observable<any> {
+  deleteDelivery(id: string) {
     return this.http.delete(`${this.apiUrl}/DeleteDelivery/${id}`);
   }
 
