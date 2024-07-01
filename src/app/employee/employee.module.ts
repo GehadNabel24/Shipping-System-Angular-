@@ -1,12 +1,6 @@
-import { PaginationPipe } from './../shared/pipe/pagination.pipe';
 import { CityService } from './../shared/Services/city.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
-import { EmployeeService } from '../shared/Services/employee.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SearchPipe } from '../shared/pipe/search.pipe';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
@@ -59,7 +53,7 @@ import { CitySearchPipe } from '../shared/pipe/citysearch.pipe';
     PaginationPipe,
   ],
 
-  providers: [EmployeeService],
+  providers: [EmployeeService, StateService , BranchService],
   exports: [RouterModule],
   imports: [
     CommonModule,
@@ -73,8 +67,6 @@ import { CitySearchPipe } from '../shared/pipe/citysearch.pipe';
     CitySearchPipe,
     SearchStatePipe,
   ],
-  providers: [EmployeeService , StateService , BranchService],
-  exports: [RouterModule]
 
 })
 export class EmployeeModule {}

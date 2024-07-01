@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService } from './../../../shared/Services/state.service';
-import { IState } from '../../../shared/Models/IState';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { IState } from '../../../shared/models/IState';
 
 @Component({
   selector: 'app-state-list',

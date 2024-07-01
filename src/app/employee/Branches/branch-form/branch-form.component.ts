@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from '../../../shared/Services/branch.service';
-import { Branch } from '../../../shared/models/branch';
-import { getAllBranch } from '../../../shared/Models/branch';
+import { Branch, getAllBranch } from '../../../shared/Models/branch';
 
 import { GovernmentService } from '../../../shared/Services/government.service';
-import { Government } from '../../../shared/models/government';
 import Swal from 'sweetalert2';
+import { Government } from '../../../shared/Models/government';
 
 @Component({
   selector: 'app-branch-form',
@@ -86,6 +85,7 @@ export class BranchFormComponent implements OnInit {
           },
         });
       } else {
+        //------------------------ type updated with (any) ----------------------------------------
         this._BranchService.addBranch(branch).subscribe({
           next: (response) => {
             console.log('Branch added successfully', response);

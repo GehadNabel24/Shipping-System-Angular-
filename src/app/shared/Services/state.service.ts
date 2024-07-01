@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IState } from '../Models/IState';
 import { Observable, map } from 'rxjs';
+import { IState } from '../models/IState';
 
 @Injectable({
   providedIn: 'root'

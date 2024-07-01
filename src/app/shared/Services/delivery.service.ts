@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Delivery, IDelivery } from '../Models/Delivery/delivery';
+import { environment } from './environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeliveryService {
 
-  private apiUrl = 'http://localhost:37667/api/Delivery';
+  private apiUrl = `${environment.baseUrl}/Delivery`;
 
   constructor(private http: HttpClient) { }
 

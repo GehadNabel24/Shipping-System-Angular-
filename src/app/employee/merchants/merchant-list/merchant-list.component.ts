@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../shared/Services/api.service';
 import { Router } from '@angular/router';
-import { IMerchantDTO } from '../../../shared/models/IMerchant';
+import { IMerchantDTO } from '../../../shared/Models/IMerchant';
 
 @Component({
   selector: 'app-merchant-list',

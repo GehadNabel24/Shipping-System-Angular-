@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { IWeightSetting } from '../Models/Weight/weight';
 import { Observable, mergeMap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { environment } from './environment';
 @Injectable({
   providedIn: 'root'
 })
 export class WeightSettingService {
-  apiUrl: string = 'http://localhost:37667/api/WeightSetting';
+  apiUrl: string = `${environment.baseUrl}/WeightSetting`;
   constructor(private http: HttpClient) { }
   getWeightSetting(): Observable<IWeightSetting> {
     const token = localStorage.getItem('token');

@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IEmployeeData } from '../Models/Employees';
+import { environment } from './environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
 
-  private baseUrl = 'http://localhost:5247/api/Employees';
+  private baseUrl = `${environment.baseUrl}/Employees`;
   Employees: IEmployeeData[] = []; 
 
   constructor(private http: HttpClient) {

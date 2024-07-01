@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { city } from '../../../shared/models/city';
-import { Government } from '../../../shared/models/government';
+import { city } from '../../../shared/Models/city';
+import { Government } from '../../../shared/Models/government';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CityService } from '../../../shared/Services/city.service';
