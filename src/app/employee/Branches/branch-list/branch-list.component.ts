@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BranchService } from '../../../shared/Services/branch.service';
-import { Branch, getAllBranch } from '../../../shared/models/branch';
+import { Branch, getAllBranch } from '../../../shared/Models/branch';
 import { Router } from '@angular/router';
 
 @Component({

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IState } from '../models/IState';
+import { IState } from '../Models/IState';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { Observable, map } from 'rxjs';
 })
 export class StateService {
 
-  private baseUrl = 'http://localhost:5247/api/Government'; 
+  private baseUrl = 'http://localhost:37667/api/Government'; 
 
   constructor(private http: HttpClient) {}
 
