@@ -1,3 +1,4 @@
+import { PaginationPipe } from './../shared/pipe/pagination.pipe';
 import { CityService } from './../shared/Services/city.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from '../shared/Services/employee.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchPipe } from '../shared/pipe/search.pipe';
-import { PaginationPipe } from '../shared/pipe/pagination.pipe';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
@@ -36,6 +36,7 @@ import { SearchStatePipe } from '../shared/pipe/search-state.pipe';
 import { StateService } from '../shared/Services/state.service';
 import { BranchService } from '../shared/Services/branch.service';
 import { EmployeeRoutingModule } from './employee-routing.module';
+import { CitySearchPipe } from '../shared/pipe/citysearch.pipe';
 
 @NgModule({
   declarations: [
@@ -54,8 +55,12 @@ import { EmployeeRoutingModule } from './employee-routing.module';
     WightSettingComponent,
     PermissionListComponent,
     AddPermissionComponent,
-    UpdatePermissionComponent
+    UpdatePermissionComponent,
+    PaginationPipe,
   ],
+
+  providers: [EmployeeService],
+  exports: [RouterModule],
   imports: [
     CommonModule,
     EmployeeRoutingModule,
@@ -64,11 +69,12 @@ import { EmployeeRoutingModule } from './employee-routing.module';
     FormsModule,
     ReactiveFormsModule,
     SearchPipe,
+    MatIconModule,
+    CitySearchPipe,
     SearchStatePipe,
-    MatIconModule
   ],
   providers: [EmployeeService , StateService , BranchService],
   exports: [RouterModule]
 
 })
-export class EmployeeModule { }
+export class EmployeeModule {}

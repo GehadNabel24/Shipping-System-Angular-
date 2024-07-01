@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 import { Government } from '../Models/government';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GovernmentService {
 
@@ -13,9 +13,10 @@ export class GovernmentService {
   constructor(private http: HttpClient) {}
 
   getGovernments(): Observable<Government[]> {
-    return this.http.get<{ $id: string; $values: Government[] }>(this.baseUrl)
+    return this.http
+      .get<{ $id: string; $values: Government[] }>(this.baseUrl)
       .pipe(
-        map(response => response.$values) // Extract the values array
+        map((response) => response.$values) // Extract the values array
       );
   }
   getGovernmentById(id: number): Observable<Government> {

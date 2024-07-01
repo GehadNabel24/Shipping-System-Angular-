@@ -1,19 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from '../../../shared/Services/branch.service';
+import { Branch } from '../../../shared/models/branch';
 import { getAllBranch } from '../../../shared/Models/branch';
+
 import { GovernmentService } from '../../../shared/Services/government.service';
-import { Government } from '../../../shared/Models/government';
+import { Government } from '../../../shared/models/government';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-branch-form',
   templateUrl: './branch-form.component.html',
-  styleUrl: './branch-form.component.css',
+  styleUrls: ['./branch-form.component.css'],
 })
-export class BranchFormComponent {
+export class BranchFormComponent implements OnInit {
   branchId: number | null = 0;
-  branch: getAllBranch | null = null;
+  branch: Branch | null = null;
   GovernmentData: Government[] = [];
 
   BranchData = new FormGroup({
@@ -21,23 +24,15 @@ export class BranchFormComponent {
       Validators.required,
       Validators.minLength(3),
     ]),
-    governmentId: new FormControl(0, Validators.required), // Add this line
+    governmentId: new FormControl(0, Validators.required),
   });
+
   constructor(
     private _ActivatedRoute: ActivatedRoute,
     private _Router: Router,
     private _BranchService: BranchService,
     private _GovernmentService: GovernmentService
   ) {}
-
-  // ngOnDestroy(): void {
-  //   if (this.updateSubscription) {
-  //     this.updateSubscription.unsubscribe();
-  //   }
-  //   if (this.addSubscription) {
-  //     this.addSubscription.unsubscribe();
-  //   }
-  // }
 
   ngOnInit(): void {
     const id = this._ActivatedRoute.snapshot.paramMap.get('id');
@@ -48,10 +43,11 @@ export class BranchFormComponent {
         console.log(this.GovernmentData);
       },
       error: (err) => {
-        console.log(err);
+        console.error('Error fetching governments', err);
+        this.showApiConnectionErrorAlert();
       },
     });
-    if (this.branchId !== null && this.branchId != 0) {
+    if (this.branchId !== null && this.branchId !== 0) {
       this._BranchService.getBranchById(this.branchId).subscribe({
         next: (response) => {
           this.branch = response;
@@ -59,10 +55,11 @@ export class BranchFormComponent {
             roleName: this.branch.name,
             governmentId: this.branch.stateId, // Assuming stateId corresponds to governmentId
           });
-          console.log(this.branch);
+          console.log('Branch fetched successfully', this.branch);
         },
         error: (err) => {
-          console.log(err);
+          console.error('Error fetching branch', err);
+          this.showApiConnectionErrorAlert();
         },
       });
     }
@@ -70,11 +67,9 @@ export class BranchFormComponent {
 
   onSubmit() {
     if (this.BranchData.valid) {
-      const branch: getAllBranch = {
+      const branch: Branch = {
         id: this.branchId || 0,
         name: this.BranchData.value.roleName!,
-        isDeleted: false, // Assuming a default value
-        status: true, // Assuming a default value
         stateId: this.BranchData.value.governmentId!,
       };
 
@@ -82,29 +77,54 @@ export class BranchFormComponent {
         this._BranchService.updateBranchById(this.branchId, branch).subscribe({
           next: (response) => {
             console.log('Branch updated successfully', response);
+            this.showUpdateSuccessAlert();
             this._Router.navigate(['/employee/branch']);
           },
           error: (err) => {
             console.error('Error updating branch', err);
+            this.showUpdateErrorAlert();
           },
         });
       } else {
         this._BranchService.addBranch(branch).subscribe({
           next: (response) => {
-            this._Router.navigate(['/employee/branch']);
             console.log('Branch added successfully', response);
+            this.showAddSuccessAlert();
+            this._Router.navigate(['/employee/branch']);
           },
           error: (err) => {
-            this._Router.navigate(['/employee/branch']);           
+            console.error('Error adding branch', err.error.text);
+            if (err.error.text.includes('تمت إضافة الفرع بنجاح.')) {
+              this.showAddSuccessAlert();
+              this._Router.navigate(['/employee/branch']);
+            } else this.showAddErrorAlert();
           },
         });
-        console.log('Adding new branch', branch);
       }
     }
   }
 
- 
   onCancel() {
-    this._Router.navigate(['employee/branch']);
+    this._Router.navigate(['/employee/branch']);
+  }
+
+  private showAddSuccessAlert(): void {
+    Swal.fire('نجاح', 'تمت إضافة الفرع بنجاح.', 'success');
+  }
+
+  private showAddErrorAlert(): void {
+    Swal.fire('خطأ', 'فشلت عملية إضافة الفرع.', 'error');
+  }
+
+  private showUpdateSuccessAlert(): void {
+    Swal.fire('نجاح', 'تم تحديث بيانات الفرع بنجاح.', 'success');
+  }
+
+  private showUpdateErrorAlert(): void {
+    Swal.fire('خطأ', 'فشلت عملية تحديث بيانات الفرع.', 'error');
+  }
+
+  private showApiConnectionErrorAlert(): void {
+    Swal.fire('خطأ', 'لم يتم الاتصال API.', 'error');
   }
 }

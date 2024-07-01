@@ -47,13 +47,13 @@
           <th>الإجراء</th>
         </tr>
       </thead>
-      <tbody> 
-        <!-- | citysearch : searchterm
-              | pagination : recordLimit -->
+      <tbody>
+      
         <tr
           *ngFor="
             let city of cityData
-             
+              | citysearch : searchterm
+              | pagination : recordLimit
           "
         >
           <td>{{ city.name }}</td>

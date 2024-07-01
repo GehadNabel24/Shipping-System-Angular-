@@ -18,34 +18,34 @@ import { EmployeeListComponent } from './employees/employee-list/employee-list.c
 import { EmployeeFormComponent } from './employees/employee-form/employee-form.component';
 
 const routes: Routes = [
-  { path: 'branch' , component: BranchListComponent },
-  { path: 'branch/:id' , component: BranchFormComponent },
+  { path: 'branch', component: BranchListComponent },
+  { path: 'branch/:id', component: BranchFormComponent },
   // ----------------------------------------------------------- //
-  { path: 'city' , component: CityListComponent },
-  { path: 'city/:id' , component: CityFormComponent },
+  { path: 'city', component: CityListComponent },
+  { path: 'city/:id', component: CityFormComponent },
   // ----------------------------------------------------------- //
-  { path: 'state' , component: StateListComponent },
-  { path: 'state/:id' , component: StateFormComponent },
+  { path: 'state', component: StateListComponent },
+  { path: 'state/:id', component: StateFormComponent },
   // ----------------------------------------------------------- //
-  { path: 'delivery' , component: DeliveryListComponent },
-  { path: 'delivery/:id' , component: DeliveryFormComponent },
+  { path: 'delivery', component: DeliveryListComponent },
+  { path: 'delivery/:id', component: DeliveryFormComponent },
   // ----------------------------------------------------------- //
-  { path: 'merchant' , component: MerchantListComponent },
-  { path: 'merchant/:id' , component: MerchantFormComponent },
+  { path: 'merchant', component: MerchantListComponent },
+  { path: 'merchant/:id', component: MerchantFormComponent },
   // ----------------------------------------------------------- //
-  { path: 'employee' , component: EmployeeListComponent },
+  { path: 'employee', component: EmployeeListComponent },
   { path: 'employee/new', component: EmployeeFormComponent },
-  { path: 'employee/:id' , component: EmployeeFormComponent },
+  { path: 'employee/:id', component: EmployeeFormComponent },
   // ----------------------------------------------------------- //
-  { path: 'permission' , component: PermissionListComponent },
-  { path: 'permission/:id' , component: UpdatePermissionComponent },
-  { path: 'permission/form/:id' , component: AddPermissionComponent },
+  { path: 'permission', component: PermissionListComponent },
+  { path: 'permission/:id', component: UpdatePermissionComponent },
+  { path: 'permission/form/:id', component: AddPermissionComponent },
   // ----------------------------------------------------------- //
-  { path: 'weight' , component: WightSettingComponent }
+  { path: 'weight', component: WightSettingComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class EmployeeRoutingModule { }
+export class EmployeeRoutingModule {}

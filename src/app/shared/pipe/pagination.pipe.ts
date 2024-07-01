@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'pagination'
+  name: 'pagination',
 })
 export class PaginationPipe implements PipeTransform {
   transform(items: any[], limit: number): any[] {
