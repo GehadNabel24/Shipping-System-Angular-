@@ -30,12 +30,12 @@ export class CityListComponent implements OnInit {
 
   deleteCity(id: number) {
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this city!',
+      title: 'هل أنت متأكد؟',
+      text: 'لن تتمكن من استعادة هذه المدينة!',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
+      confirmButtonText: 'نعم، احذفها!',
+      cancelButtonText: 'لا، احتفظ بها'
     }).then((result) => {
       if (result.isConfirmed) {
         this._CityService.deleteCity(id).subscribe({
@@ -50,7 +50,7 @@ export class CityListComponent implements OnInit {
           }
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire('Cancelled', 'Your city is safe :)', 'error');
+        Swal.fire('ملغاة', 'مدينتك آمنة :)', 'error');
       }
     });
   }
@@ -71,22 +71,22 @@ export class CityListComponent implements OnInit {
   }
 
   private showDeleteSuccessAlert(): void {
-    Swal.fire('Deleted!', 'City has been deleted.', 'success');
+    Swal.fire('تم الحذف!', 'تم حذف المدينة بنجاح.', 'success');
   }
 
   private showDeleteErrorAlert(): void {
-    Swal.fire('Error!', 'Failed to delete city.', 'error');
+    Swal.fire('خطأ!', 'فشلت عملية حذف المدينة.', 'error');
   }
 
   private showStatusChangeSuccessAlert(): void {
-    Swal.fire('Success!', 'City status changed successfully.', 'success');
+    Swal.fire('نجاح!', 'تم تغيير حالة المدينة بنجاح.', 'success');
   }
 
   private showStatusChangeErrorAlert(): void {
-    Swal.fire('Error!', 'Failed to change city status.', 'error');
+    Swal.fire('خطأ!', 'فشلت عملية تغيير حالة المدينة.', 'error');
   }
 
   private showApiConnectionErrorAlert(): void {
-    Swal.fire('Error', 'Failed to connect to the API.', 'error');
+    Swal.fire('خطأ', 'فشل الاتصال بواجهة البرمجة.', 'error');
   }
 }

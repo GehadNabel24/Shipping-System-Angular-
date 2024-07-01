@@ -8,7 +8,7 @@ import { GovernmentService } from '../../../shared/Services/government.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-city-form',
+  selector: 'app-city-form',  
   templateUrl: './city-form.component.html',
   styleUrls: ['./city-form.component.css']
 })
@@ -111,22 +111,23 @@ export class CityFormComponent implements OnInit {
   }
 
   private showAddSuccessAlert(): void {
-    Swal.fire('Success', 'City added successfully!', 'success');
+    Swal.fire('نجاح', 'تمت إضافة المدينة بنجاح!', 'success');
   }
-
+  
   private showAddErrorAlert(): void {
-    Swal.fire('Error', 'Failed to add city.', 'error');
+    Swal.fire('خطأ', 'فشلت عملية إضافة المدينة.', 'error');
   }
-
+  
   private showUpdateSuccessAlert(): void {
-    Swal.fire('Success', 'City updated successfully!', 'success');
+    Swal.fire('نجاح', 'تم تحديث بيانات المدينة بنجاح!', 'success');
   }
-
+  
   private showUpdateErrorAlert(): void {
-    Swal.fire('Error', 'Failed to update city.', 'error');
+    Swal.fire('خطأ', 'فشلت عملية تحديث بيانات المدينة.', 'error');
   }
-
+  
   private showApiConnectionErrorAlert(): void {
-    Swal.fire('Error', 'Failed to connect to the API.', 'error');
+    Swal.fire('خطأ', 'فشل الاتصال بواجهة البرمجة.', 'error');
   }
+  
 }

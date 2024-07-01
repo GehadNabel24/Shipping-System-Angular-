@@ -84,27 +84,29 @@ export class BranchListComponent implements OnInit {
   }
 
   private showStatusChangeSuccessAlert(): void {
-    Swal.fire('Success', 'Branch status changed successfully!', 'success');
+    Swal.fire('نجاح', 'تم تغيير حالة الفرع بنجاح!', 'success');
   }
-
+  
   private showStatusChangeErrorAlert(): void {
-    Swal.fire('Error', 'Failed to change branch status.', 'error');
+    Swal.fire('خطأ', 'فشل في تغيير حالة الفرع.', 'error');
   }
-
+  
   private showDeleteSuccessAlert(): void {
-    Swal.fire('Success', 'Branch deleted successfully!', 'success');
+    Swal.fire('نجاح', 'تم حذف الفرع بنجاح!', 'success');
   }
-
+  
   private showDeleteErrorAlert(): void {
-    Swal.fire('Error', 'Failed to delete branch.', 'error');
+    Swal.fire('خطأ', 'فشل في حذف الفرع.', 'error');
   }
-
+  
   private showApiConnectionErrorAlert(): void {
-    Swal.fire('Error', 'Failed to connect to the API.', 'error');
+    Swal.fire('خطأ', 'فشل الاتصال ب API.', 'error');
   }
-
+  
   private showServerNotWorkingAlert(): void {
-    Swal.fire('Server Issue', 'Server is not responding.', 'warning');
+    Swal.fire('مشكلة في الخادم', 'الخادم لا يستجيب.', 'warning');
   }
+  
+
 
 }
