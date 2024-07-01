@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { getAllBranch, Branch } from '../models/branch'; // Adjust the path as necessary
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BranchService {
   private baseUrl = 'http://localhost:5247/api/Branch'; // Adjust the base URL as necessary
@@ -13,9 +13,10 @@ export class BranchService {
   constructor(private http: HttpClient) {}
 
   getBranches(): Observable<getAllBranch[]> {
-    return this.http.get<{ $id: string; $values: getAllBranch[] }>(this.baseUrl)
+    return this.http
+      .get<{ $id: string; $values: getAllBranch[] }>(this.baseUrl)
       .pipe(
-        map(response => response.$values) // Extract the values array
+        map((response) => response.$values) // Extract the values array
       );
   }
   getBranchById(id: number): Observable<getAllBranch> {
@@ -24,7 +25,7 @@ export class BranchService {
   updateBranchById(id: number, branch: Branch): Observable<Branch> {
     return this.http.put<Branch>(`${this.baseUrl}/${id}`, branch);
   }
- 
+
   addBranch(branch: Branch): Observable<any> {
     return this.http.post(this.baseUrl, branch);
   }

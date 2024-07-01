@@ -6,11 +6,11 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-city-list',
   templateUrl: './city-list.component.html',
-  styleUrls: ['./city-list.component.css']
+  styleUrls: ['./city-list.component.css'],
 })
 export class CityListComponent implements OnInit {
   cityData: city[] = [];
-  searchterm = "";
+  searchterm = '';
   recordLimit: number = 5;
 
   constructor(private _CityService: CityService) {}
@@ -35,19 +35,19 @@ export class CityListComponent implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'نعم، احذفها!',
-      cancelButtonText: 'لا، احتفظ بها'
+      cancelButtonText: 'لا، احتفظ بها',
     }).then((result) => {
       if (result.isConfirmed) {
         this._CityService.deleteCity(id).subscribe({
           next: () => {
             console.log(`City with id ${id} deleted successfully`);
-            this.cityData = this.cityData.filter(city => city.id !== id);
+            this.cityData = this.cityData.filter((city) => city.id !== id);
             this.showDeleteSuccessAlert();
           },
           error: (err) => {
             console.error(`Error deleting City with id ${id}`, err);
             this.showDeleteErrorAlert();
-          }
+          },
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire('ملغاة', 'مدينتك آمنة :)', 'error');
@@ -66,7 +66,7 @@ export class CityListComponent implements OnInit {
       error: (err) => {
         console.error('Error changing city status', err);
         this.showStatusChangeErrorAlert();
-      }
+      },
     });
   }
 

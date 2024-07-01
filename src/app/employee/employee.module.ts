@@ -26,40 +26,41 @@ import { PermissionListComponent } from './Permissions/permission-list/permissio
 import { AddPermissionComponent } from './Permissions/add-permission/add-permission.component';
 import { UpdatePermissionComponent } from './Permissions/update-permission/update-permission.component';
 import { EmployeeRoutingModule } from './employee-routing.module';
-import { CitySearchPipe } from "../shared/pipe/citysearch.pipe";
+import { CitySearchPipe } from '../shared/pipe/citysearch.pipe';
 
 @NgModule({
-    declarations: [
-        EmployeeListComponent,
-        EmployeeFormComponent,
-        DeliveryListComponent,
-        DeliveryFormComponent,
-        MerchantListComponent,
-        MerchantFormComponent,
-        StateFormComponent,
-        StateListComponent,
-        BranchListComponent,
-        BranchFormComponent,
-        CityFormComponent,
-        CityListComponent,
-        WightSettingComponent,
-        PermissionListComponent,
-        AddPermissionComponent,
-        UpdatePermissionComponent,
-        PaginationPipe
-    ],
-    providers: [EmployeeService],
-    exports: [RouterModule],
-    imports: [
-        CommonModule,
-        EmployeeRoutingModule,
-        SharedModule,
-        HttpClientModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SearchPipe,
-        MatIconModule,
-        CitySearchPipe
-    ]
+  declarations: [
+    EmployeeListComponent,
+    EmployeeFormComponent,
+    DeliveryListComponent,
+    DeliveryFormComponent,
+    MerchantListComponent,
+    MerchantFormComponent,
+    StateFormComponent,
+    StateListComponent,
+    BranchListComponent,
+    BranchFormComponent,
+    CityFormComponent,
+    CityListComponent,
+    WightSettingComponent,
+    PermissionListComponent,
+    AddPermissionComponent,
+    UpdatePermissionComponent,
+    PaginationPipe,
+  ],
+
+  providers: [EmployeeService],
+  exports: [RouterModule],
+  imports: [
+    CommonModule,
+    EmployeeRoutingModule,
+    SharedModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SearchPipe,
+    MatIconModule,
+    CitySearchPipe,
+  ],
 })
-export class EmployeeModule { }
+export class EmployeeModule {}

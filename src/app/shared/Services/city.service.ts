@@ -32,7 +32,9 @@ export class CityService {
     return this.http.delete(`${this.baseUrl}/delete/${id}`);
   }
   changeCityStatus(id: number, status: boolean): Observable<any> {
-    return this.http.put(`${this.baseUrl}/change-status/${id}?status=${status}`, {});
+    return this.http.put(
+      `${this.baseUrl}/change-status/${id}?status=${status}`,
+      {}
+    );
   }
-
 }

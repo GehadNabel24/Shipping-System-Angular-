@@ -1,5 +1,7 @@
 <div class="container">
-  <span style="font-size: 20px; font-weight: 500; margin: 40px 20px">الأفرع</span>
+  <span style="font-size: 20px; font-weight: 500; margin: 40px 20px"
+    >الأفرع</span
+  >
   <div class="header">
     <div class="input-group mb-3" dir="ltr">
       <input
@@ -29,9 +31,7 @@
     </div>
     <div class="input-group mb-3" style="width: 20vw" dir="ltr">
       <span class="input-group-text" id="basic-addon2">
-        <a
-          [routerLink]="['/employee/branch/0']"
-          class="btn add-group-button"
+        <a [routerLink]="['/employee/branch/0']" class="btn add-group-button"
           ><i class="bi bi-plus-lg"></i> أضف فرع</a
         >
       </span>
@@ -50,9 +50,15 @@
       </thead>
       <tbody>
         <!-- | pagination: recordLimit -->
-        <tr *ngFor="let branch of branchData | search: searchterm| pagination: recordLimit ">
+        <tr
+          *ngFor="
+            let branch of branchData
+              | search : searchterm
+              | pagination : recordLimit
+          "
+        >
           <td>{{ branch.name }}</td>
-          <td>{{ branch.date | date : "short" }}</td> 
+          <td>{{ branch.date | date : "short" }}</td>
           <!-- Adjusted for date formatting -->
           <td>
             <div class="form-check form-switch">
@@ -62,21 +68,30 @@
                 role="switch"
                 id="flexSwitchCheckChecked"
                 [checked]="branch.status"
-                (change)="updateStatus($event,branch.id)"
-
+                (change)="updateStatus($event, branch.id)"
               />
             </div>
           </td>
           <td>
-            <a class="btn text-danger" (click)="deleteBranch(branch.id)"><i class="bi bi-trash"></i></a>
-            <a class="btn text-primary" routerLink="/employee/branch/{{branch.id}}"><i class="bi bi-pencil"></i></a>
+            <a class="btn text-danger" (click)="deleteBranch(branch.id)"
+              ><i class="bi bi-trash"></i
+            ></a>
+            <a
+              class="btn text-primary"
+              routerLink="/employee/branch/{{ branch.id }}"
+              ><i class="bi bi-pencil"></i
+            ></a>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="input-group mb-3 justify-content-end" style="width: 20vw" dir="ltr">
+  <div
+    class="input-group mb-3 justify-content-end"
+    style="width: 20vw"
+    dir="ltr"
+  >
     <span class="input-group-text" id="basic-addon2">
       <button class="btn add-group-button">1</button>
       <button class="btn">2</button>

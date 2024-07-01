@@ -109,22 +109,20 @@ export class BranchFormComponent implements OnInit {
   private showAddSuccessAlert(): void {
     Swal.fire('نجاح', 'تمت إضافة الفرع بنجاح.', 'success');
   }
-  
+
   private showAddErrorAlert(): void {
     Swal.fire('خطأ', 'فشلت عملية إضافة الفرع.', 'error');
   }
-  
+
   private showUpdateSuccessAlert(): void {
     Swal.fire('نجاح', 'تم تحديث بيانات الفرع بنجاح.', 'success');
   }
-  
+
   private showUpdateErrorAlert(): void {
     Swal.fire('خطأ', 'فشلت عملية تحديث بيانات الفرع.', 'error');
   }
-  
+
   private showApiConnectionErrorAlert(): void {
     Swal.fire('خطأ', 'لم يتم الاتصال API.', 'error');
   }
-  
-  
 }

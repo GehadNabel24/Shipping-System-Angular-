@@ -4,18 +4,18 @@ import { Observable, map } from 'rxjs';
 import { Government } from '../models/government';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GovernmentService {
-
   private baseUrl = 'http://localhost:5247/api/Government'; // Adjust the base URL as necessary
 
   constructor(private http: HttpClient) {}
 
   getGovernments(): Observable<Government[]> {
-    return this.http.get<{ $id: string; $values: Government[] }>(this.baseUrl)
+    return this.http
+      .get<{ $id: string; $values: Government[] }>(this.baseUrl)
       .pipe(
-        map(response => response.$values) // Extract the values array
+        map((response) => response.$values) // Extract the values array
       );
   }
   getGovernmentById(id: number): Observable<Government> {

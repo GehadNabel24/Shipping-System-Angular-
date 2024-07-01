@@ -7,21 +7,18 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-branch-list',
   templateUrl: './branch-list.component.html',
-  styleUrls: ['./branch-list.component.css']
+  styleUrls: ['./branch-list.component.css'],
 })
 export class BranchListComponent implements OnInit {
   branchData: getAllBranch[] = [];
-  searchterm = "";
+  searchterm = '';
   recordLimit: number = 5;
-  branch:Branch={
-    
-  id: 0,
-  name: '',
-  stateId:0,
-
-
-  }
-  constructor(private _BranchService: BranchService,private _Router:Router) {}
+  branch: Branch = {
+    id: 0,
+    name: '',
+    stateId: 0,
+  };
+  constructor(private _BranchService: BranchService, private _Router: Router) {}
 
   ngOnInit(): void {
     this.loadBranches();
@@ -29,39 +26,41 @@ export class BranchListComponent implements OnInit {
 
   loadBranches(): void {
     this._BranchService.getBranches().subscribe(
-      branches => {
+      (branches) => {
         this.branchData = branches;
-        console.log(this.branchData)
+        console.log(this.branchData);
         if (this.branchData.length === 0) {
           this.showServerNotWorkingAlert();
         }
       },
-      error => {
+      (error) => {
         console.error('Error loading branches:', error);
         this.showApiConnectionErrorAlert();
       }
     );
   }
-  updateStatus(event: any,id:number): void {
+  updateStatus(event: any, id: number): void {
     const checkbox = event.target as HTMLInputElement;
     if (!checkbox) return;
 
     const checked = checkbox.checked;
 
     if (id === undefined) {
-      console.error('Could not find data-branch-id attribute or it is not valid.');
+      console.error(
+        'Could not find data-branch-id attribute or it is not valid.'
+      );
       return;
     }
 
-    const branchToUpdate = this.branchData.find(branch => branch.id === id);
+    const branchToUpdate = this.branchData.find((branch) => branch.id === id);
     if (branchToUpdate) {
       branchToUpdate.status = checked;
       this._BranchService.updateBranchById(id, branchToUpdate).subscribe(
-        updatedBranch => {
+        (updatedBranch) => {
           this.showStatusChangeSuccessAlert();
           console.log('Status updated successfully:', updatedBranch);
         },
-        error => {
+        (error) => {
           this.showStatusChangeErrorAlert();
           console.error('Error updating status:', error);
         }
@@ -76,7 +75,7 @@ export class BranchListComponent implements OnInit {
         console.log('Branch deleted successfully');
         this.loadBranches(); // Optionally refresh data after delete
       },
-      error => {
+      (error) => {
         this.showDeleteErrorAlert();
         console.error('Error deleting branch:', error);
       }
@@ -86,27 +85,23 @@ export class BranchListComponent implements OnInit {
   private showStatusChangeSuccessAlert(): void {
     Swal.fire('نجاح', 'تم تغيير حالة الفرع بنجاح!', 'success');
   }
-  
+
   private showStatusChangeErrorAlert(): void {
     Swal.fire('خطأ', 'فشل في تغيير حالة الفرع.', 'error');
   }
-  
+
   private showDeleteSuccessAlert(): void {
     Swal.fire('نجاح', 'تم حذف الفرع بنجاح!', 'success');
   }
-  
+
   private showDeleteErrorAlert(): void {
     Swal.fire('خطأ', 'فشل في حذف الفرع.', 'error');
   }
-  
+
   private showApiConnectionErrorAlert(): void {
     Swal.fire('خطأ', 'فشل الاتصال ب API.', 'error');
   }
-  
   private showServerNotWorkingAlert(): void {
     Swal.fire('مشكلة في الخادم', 'الخادم لا يستجيب.', 'warning');
   }
-  
-
-
 }

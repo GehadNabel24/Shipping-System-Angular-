@@ -8,9 +8,9 @@ import { GovernmentService } from '../../../shared/Services/government.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-city-form',  
+  selector: 'app-city-form',
   templateUrl: './city-form.component.html',
-  styleUrls: ['./city-form.component.css']
+  styleUrls: ['./city-form.component.css'],
 })
 export class CityFormComponent implements OnInit {
   cityId: number | null = 0;
@@ -24,7 +24,7 @@ export class CityFormComponent implements OnInit {
     ]),
     governmentId: new FormControl(0, Validators.required),
     shippingPrice: new FormControl(0, Validators.required),
-    pickUpPrice: new FormControl(0, Validators.required)
+    pickUpPrice: new FormControl(0, Validators.required),
   });
 
   constructor(
@@ -55,7 +55,7 @@ export class CityFormComponent implements OnInit {
             roleName: this.city.name,
             governmentId: this.city.governmentId,
             shippingPrice: this.city.shippingPrice,
-            pickUpPrice: this.city.pickUpPrice
+            pickUpPrice: this.city.pickUpPrice,
           });
           console.log('City fetched successfully', this.city);
         },
@@ -75,7 +75,7 @@ export class CityFormComponent implements OnInit {
         status: true, // Assuming a default value
         governmentId: this.cityData.value.governmentId!,
         shippingPrice: this.cityData.value.shippingPrice!,
-        pickUpPrice: this.cityData.value.pickUpPrice!
+        pickUpPrice: this.cityData.value.pickUpPrice!,
       };
 
       if (this.cityId && this.cityId !== 0) {
@@ -113,21 +113,20 @@ export class CityFormComponent implements OnInit {
   private showAddSuccessAlert(): void {
     Swal.fire('نجاح', 'تمت إضافة المدينة بنجاح!', 'success');
   }
-  
+
   private showAddErrorAlert(): void {
     Swal.fire('خطأ', 'فشلت عملية إضافة المدينة.', 'error');
   }
-  
+
   private showUpdateSuccessAlert(): void {
     Swal.fire('نجاح', 'تم تحديث بيانات المدينة بنجاح!', 'success');
   }
-  
+
   private showUpdateErrorAlert(): void {
     Swal.fire('خطأ', 'فشلت عملية تحديث بيانات المدينة.', 'error');
   }
-  
+
   private showApiConnectionErrorAlert(): void {
     Swal.fire('خطأ', 'فشل الاتصال بواجهة البرمجة.', 'error');
   }
-  
 }
