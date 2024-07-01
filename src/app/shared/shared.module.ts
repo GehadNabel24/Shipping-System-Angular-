@@ -8,7 +8,7 @@ import { AsideComponent } from './Components/aside/aside.component';
 import { OrderReportComponent } from './Components/order-report/order-report.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { ChangePasswordComponent } from './Components/change-password/change-password.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PasswordService } from './Services/password.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -29,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     SharedRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
   ],
   exports: [
     HomeComponent,
@@ -39,7 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
     OrderListComponent,
     OrderReportComponent,
     AsideComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [PasswordService]
 })

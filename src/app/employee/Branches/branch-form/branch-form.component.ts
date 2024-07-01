@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from '../../../shared/Services/branch.service';
-import { getAllBranch } from '../../../shared/models/branch';
+import { getAllBranch } from '../../../shared/Models/branch';
 import { GovernmentService } from '../../../shared/Services/government.service';
-import { Government } from '../../../shared/models/government';
+import { Government } from '../../../shared/Models/government';
 
 @Component({
   selector: 'app-branch-form',

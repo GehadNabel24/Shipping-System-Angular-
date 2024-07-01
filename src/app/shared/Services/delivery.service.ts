@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Delivery, IDelivery } from '../Models/Delivery/delivery';
 
 @Injectable({
@@ -14,6 +14,13 @@ export class DeliveryService {
 
   getAllDeliveries(): Observable<IDelivery[]> {
     return this.http.get<IDelivery[]>(`${this.apiUrl}`);
+  }
+
+  getAllDeliveriesByState(state: string): Observable<Delivery[]> {
+    return this.http.get<{ $id: string; $values: Delivery[] }>(`${this.apiUrl}`)
+      .pipe(
+        map(response => response.$values.filter((delegate: any) => delegate.government === state)) 
+      );
   }
 
   getDeliveryById(id: string): Observable<IDelivery> {

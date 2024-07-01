@@ -1,4 +1,4 @@
-import { getAllBranch } from '../models/branch';
+import { getAllBranch } from '../Models/branch';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({

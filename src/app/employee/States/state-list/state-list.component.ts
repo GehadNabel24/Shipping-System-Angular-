@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService } from './../../../shared/Services/state.service';
-import { IState } from '../../../shared/models/IState';
+import { IState } from '../../../shared/Models/IState';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 

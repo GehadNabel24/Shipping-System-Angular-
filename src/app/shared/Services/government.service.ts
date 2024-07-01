@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Government } from '../models/government';
+import { Government } from '../Models/government';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GovernmentService {
 
-  private baseUrl = 'http://localhost:5247/api/Government'; // Adjust the base URL as necessary
+  private baseUrl = 'http://localhost:37667/api/Government'; // Adjust the base URL as necessary
 
   constructor(private http: HttpClient) {}
 

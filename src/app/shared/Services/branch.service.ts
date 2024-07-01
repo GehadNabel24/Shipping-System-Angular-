@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getAllBranch, Branch } from '../models/branch'; // Adjust the path as necessary
+import { getAllBranch, Branch } from '../Models/branch'; // Adjust the path as necessary
 
 @Injectable({
   providedIn: 'root'
 })
 export class BranchService {
-  private baseUrl = 'http://localhost:5247/api/Branch'; // Adjust the base URL as necessary
+  private baseUrl = 'http://localhost:37667/api/Branch'; // Adjust the base URL as necessary
 
   constructor(private http: HttpClient) {}
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CityService } from '../../../shared/Services/city.service';
-import { city } from '../../../shared/models/city';
+import { city } from '../../../shared/Models/city';
 
 @Component({
   selector: 'app-city-list',
