@@ -25,6 +25,16 @@ import { WightSettingComponent } from './Weight/wight-setting/wight-setting.comp
 import { PermissionListComponent } from './Permissions/permission-list/permission-list.component';
 import { AddPermissionComponent } from './Permissions/add-permission/add-permission.component';
 import { UpdatePermissionComponent } from './Permissions/update-permission/update-permission.component';
+import { SharedRoutingModule } from '../shared/shared-routing.module';
+import { SharedModule } from '../shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
+import { EmployeeService } from '../shared/Services/employee.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SearchPipe } from '../shared/pipe/search.pipe';
+import { PaginationPipe } from '../shared/pipe/pagination.pipe';
+import { SearchStatePipe } from '../shared/pipe/search-state.pipe';
+import { StateService } from '../shared/Services/state.service';
+import { BranchService } from '../shared/Services/branch.service';
 import { EmployeeRoutingModule } from './employee-routing.module';
 
 @NgModule({
@@ -54,10 +64,10 @@ import { EmployeeRoutingModule } from './employee-routing.module';
     FormsModule,
     ReactiveFormsModule,
     SearchPipe,
+    SearchStatePipe,
     MatIconModule
   ],
-  providers: [EmployeeService],
-
+  providers: [EmployeeService , StateService , BranchService],
   exports: [RouterModule]
 
 })

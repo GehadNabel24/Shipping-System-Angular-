@@ -36,7 +36,12 @@ export class EmployeeService {
     const url = `${this.baseUrl}/${id}`;
     return this.http.put<IEmployeeData>(url, employee);
   }
-  
+
+  updateEmployeeStatus(employeeId: string, status: boolean): Observable<any> {
+    const url = `${this.baseUrl}/status/${employeeId}?status=${status}`;
+    return this.http.put<any>(url, null);
+  }
+
   deleteEmployee(id: string): Observable<any> {
     const url = `${this.baseUrl}/${id}`;
     return this.http.delete(url);

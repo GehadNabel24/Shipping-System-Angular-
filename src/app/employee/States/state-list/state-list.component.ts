@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class StateListComponent implements OnInit {
 
-  stateData: IState[] = [];
+  States: IState[] =[];
   searchterm = '';
   recordLimit: number = 5;
 
@@ -24,7 +24,8 @@ export class StateListComponent implements OnInit {
   loadStates(): void {
     this.stateService.getGovernments().subscribe({
       next: (response) => {
-        this.stateData = response;
+        this.States = response;
+        console.log(this.States);
       },
       error: (error) => {
         console.error('Error fetching states:', error);
@@ -46,8 +47,7 @@ export class StateListComponent implements OnInit {
       if (result.isConfirmed) {
         this.stateService.deleteGovernment(stateId).subscribe({
           next: () => {
-            // Update stateData after successful deletion
-            this.stateData = this.stateData.filter(p => p.id !== stateId);
+            this.States = this.States.filter(p => p.id !== stateId);
             Swal.fire(
               'حذف محافظة!',
               'تم حذف هذه المحافظة.',
@@ -60,12 +60,34 @@ export class StateListComponent implements OnInit {
               'لم يتم حذف هذه المحافظة.',
               'error'
             );
-            console.error('Error deleting state:', error); // Log detailed error message
+            console.error('Error deleting state:', error); 
           }
         });
       }
     });
   }
+
+  toggleStateStatus(state: IState): void {
+    state.status = !state.status;
+    this.stateService.editGovernment(state.id, state).subscribe({
+      next: () => {
+        Swal.fire(
+          'تحديث الحالة!',
+          'تم تحديث حالة المحافظة بنجاح.',
+          'success'
+        );
+      },
+      error: (error: any) => {
+        Swal.fire(
+          'تحديث الحالة!',
+          `حدث خطأ أثناء تحديث الحالة: ${error.error}`,
+          'error'
+        );
+        console.error('Error updating state status:', error);
+      }
+    });
+  }
+
 
   viewState(stateId: number): void {
     this.router.navigate(['/employee/state', stateId]);

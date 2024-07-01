@@ -24,7 +24,7 @@ export class BranchService {
   updateBranchById(id: number, branch: Branch): Observable<Branch> {
     return this.http.put<Branch>(`${this.baseUrl}/${id}`, branch);
   }
- 
+
   addBranch(branch: getAllBranch): Observable<any> {
     return this.http.post(this.baseUrl, branch);
   }
