@@ -22,6 +22,8 @@ export class OrderListComponent implements OnInit {
   searchType: string = 'status'; 
   selectedOrder:any= this.filteredOrders[0];
   canEdit: boolean = false;
+  startDate: string | null = null;
+  endDate: string | null = null;
   pages = [1, 2, 3, 4];
   statusForm: FormGroup = new FormGroup({
       status: new FormControl(this.selectedOrder.status,{validators: [Validators.required]}),
@@ -32,22 +34,55 @@ export class OrderListComponent implements OnInit {
   constructor(
     private pdfGeneratorService: PdfGeneratorService,
     private orderService: OrderService,
-    private deliveryService: DeliveryService
+    private deliveryService: DeliveryService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.checkUserRole();
-    this.loadOrders();
+    this.route.paramMap.subscribe(params => {
+      const status = params.get('status');
+      if (status) {
+        this.loadFilteredOrders(status);
+      } else {
+        this.loadOrders();
+      }
+    });
   }
 
   loadOrders(): void {
     this.orderService.getAllOrders().subscribe({
       next: (data: any) => {
-        console.log(data.$values);
         this.orders = data.$values;
         this.filteredOrders = [...this.orders];
+      },
+      error: (error: any) => {
+        console.error('Error fetching orders:', error);
       }
     });
+  }
+
+  loadFilteredOrders(status: string): void {
+    this.orderService.getOrdersAfterFilter(status).subscribe({
+      next: (data: any) => {
+        this.orders = data.$values;
+        this.filteredOrders = [...this.orders];
+      },
+      error: (error: any) => {
+        console.error('Error fetching filtered orders:', error);
+      }
+    });
+  }
+
+  filterByDateRange(): void {
+    if (this.startDate && this.endDate) {
+      const start = new Date(this.startDate);
+      const end = new Date(this.endDate);
+      this.filteredOrders = this.orders.filter(order => {
+        const orderDate = new Date(order.orderDate!);
+        return orderDate >= start && orderDate <= end;
+      });
+    }
   }
 
   checkUserRole(): void {
@@ -68,7 +103,7 @@ export class OrderListComponent implements OnInit {
         if (this.searchType === 'status') {
           return order.orderStatus.includes(searchValue);
         } else if (this.searchType === 'delegateName') {
-          // return order.deliveryId.includes(searchValue);
+          return order.deliveryId?.includes(searchValue);
         } else if (this.searchType === 'clientName') {
           return order.clientName.includes(searchValue);
         }
@@ -78,8 +113,10 @@ export class OrderListComponent implements OnInit {
   }
 
   getDelegatesByState(state: string) {
+    console.log(state);
     this.deliveryService.getAllDeliveriesByState(state).subscribe({
       next: (data: any) => {
+        console.log(data);
         this.delegates = data;
         console.log(this.delegates);
       },
@@ -89,7 +126,6 @@ export class OrderListComponent implements OnInit {
     });
   }
   
-
   openModal(order: any, change:string): void {
     if (order) {
       this.selectedOrder = { ...order };
@@ -100,6 +136,7 @@ export class OrderListComponent implements OnInit {
         });
          modalElement = document.getElementById('UpdateStatus');
       }else if(change=="delivery"){
+        this.getDelegatesByState(this.selectedOrder.stateName);
         this.deliveryForm.patchValue({
           delegateName: this.selectedOrder.delegateName
         });
@@ -127,8 +164,7 @@ export class OrderListComponent implements OnInit {
   updateOrder(change:string): void {
     let modalElement;
     if(change=="status"){
-      const newStatus = this.statusForm.value.orderStatus;
-      this.selectedOrder.status = newStatus;
+      const newStatus = this.statusForm.controls['status'].value;
       this.orderService.changeOrderStatus(this.selectedOrder.id, newStatus).subscribe({
         next: (data: any) => {
           this.loadOrders();
@@ -148,7 +184,7 @@ export class OrderListComponent implements OnInit {
       this.orderService.changeOrderDelivery(this.selectedOrder.id,newDelegate ).subscribe({
         next: (data: any) => {
           this.loadOrders();
-          modalElement = document.getElementById('UpdateStatus');
+          modalElement = document.getElementById('UpdateDelivery');
           if (modalElement) {
             modalElement?.classList.remove('fade', 'show');
             modalElement?.setAttribute('style', 'display: none;');

@@ -40,24 +40,22 @@ export class OrderService {
     return this.http.get<IorderResponse[]>(`${this.apiUrl}/SearchByDeliveryName?query=${query}`);
   }
 
-  getOrderReceipt(id: number): Observable<IOrder> {
-    return this.http.get<{ $id: string; $values: IOrder}>(`${this.apiUrl}/OrderReceipt?id=${id}`)
-    .pipe(
-      map(response => response.$values) 
-    );
+  getOrderReceipt(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/OrderReceipt?id=${id}`);
   }
 
   changeOrderDelivery(id: number, deliveryId: number): Observable<void> {
     // return this.http.put<void>(`${this.apiUrl}/ChangeDelivery?id=${id}&deliveryId=${deliveryId}`);
-    return this.http.put<void>(`${this.apiUrl}/ChangeDelivery`, { id, deliveryId });
+    return this.http.put<void>(`${this.apiUrl}/ChangeDelivery?id=${id}&deliveryId=${deliveryId}`, {});
   }
 
   changeOrderStatus(id: number, status: string): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/ChangeStatus`, { id, status });
+    return this.http.put<void>(`${this.apiUrl}/ChangeStatus?id=${id}&status=${status}`, {});
   }
 
-  editOrder(id: number, order: IorderResponse): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/Edit`, { id, order });
+  editOrder(id: number, order: any): Observable<void> {
+    console.log(id);
+    return this.http.put<void>(`${this.apiUrl}/Edit/${id}`,order );
   }
 
   addOrder(order: IOrder): Observable<IorderResponse> {

@@ -27,7 +27,6 @@ export class DashboardComponent implements OnInit {
       this.orderService.getOrdersByStatusCount(status).subscribe({
         next: (count: number) => {
           this.statusCounts.push({ status, count });
-          console.log(`Count for ${status} is ${count}`);
         },
         error: (error: any) => {
           console.error(`Error fetching count for ${status}`, error);

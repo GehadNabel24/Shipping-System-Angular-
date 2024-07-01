@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'login' , component: LogInComponent},
   { path: 'change-password' , component: ChangePasswordComponent},
   { path: 'order-list' , component: OrderListComponent},
+  { path: 'order-list/:status' , component: OrderListComponent},
   { path: 'order-report' , component: OrderReportComponent},
   { path: '**' , component: HomeComponent}
 ];

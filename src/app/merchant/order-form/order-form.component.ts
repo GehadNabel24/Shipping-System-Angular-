@@ -30,7 +30,7 @@ export class OrderFormComponent implements OnInit {
   orderTypes = Object.values(OrderType);
   isEditMode: boolean = false;
   orderId: number = 0;
-
+  Products:IOrderProduct[] = [{}] as IOrderProduct[];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -85,14 +85,22 @@ export class OrderFormComponent implements OnInit {
   loadOrderData(id: number): void {
     this.orderService.getOrderReceipt(id).subscribe({
       next: (order: IOrder) => {
-        this.orderForm.patchValue(order);
-        this.orderForm.setControl('orderProducts', new FormArray(order.orderProducts.map(product =>
+        console.log(order);
+      this.orderForm.patchValue({
+        ...order,
+        orderProducts: []
+      });
+      this.orderProducts.clear();
+      this.Products = Array.isArray(order.orderProducts.$values) ? order.orderProducts.$values : [];
+      this.Products.forEach((product: IOrderProduct) => {
+        this.orderProducts.push(
           new FormGroup({
             productName: new FormControl(product.productName),
             productQuantity: new FormControl(product.productQuantity),
             weight: new FormControl(product.weight)
           })
-        )));
+        );
+      });
       },
       error: err => {
         console.log(err);
@@ -150,12 +158,30 @@ export class OrderFormComponent implements OnInit {
   onSubmit(): void {
     if (this.orderForm.valid) {
       this.orderForm.get('totalWeight')?.enable();
-      const formData = this.orderForm.value;
-      formData.type = OrderType[formData.type as keyof typeof OrderType];
-      formData.shippingType = ShippingType[formData.shippingType as keyof typeof ShippingType];
-      formData.paymentType = PaymentType[formData.paymentType as keyof typeof PaymentType];
+    const formValues = this.orderForm.value;
+
+    // Extract values from form controls
+    const type = this.orderForm.controls['type'].value;
+    const shippingType = this.orderForm.controls['shippingType'].value;
+    const paymentType = this.orderForm.controls['paymentType'].value;
+
+    // Map the extracted values to their respective enums
+    const mappedType = OrderType[type as keyof typeof OrderType];
+    const mappedShippingType = ShippingType[shippingType as keyof typeof ShippingType];
+    const mappedPaymentType = PaymentType[paymentType as keyof typeof PaymentType];
+
+    // Construct the final formData object
+    const formData = {
+      ...formValues,
+      type: mappedType,
+      shippingType: mappedShippingType,
+      paymentType: mappedPaymentType,
+    };
+
+    console.log(formData);
 
       if (this.isEditMode) {
+        console.log(this.orderId);
         this.orderService.editOrder(this.orderId, formData).subscribe({
           next: (data: any) => {
             console.log(data);

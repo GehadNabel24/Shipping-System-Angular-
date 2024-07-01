@@ -32,7 +32,6 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
       discountType: [0, Validators.required],
       companyPercent: ['', Validators.required],
       status: [true, Validators.required],
-      branchName: ['', Validators.required],
       password: ['']
     });
   }

@@ -29,13 +29,6 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="branchName">اسم الفرع</label>
-      <input id="branchName" formControlName="branchName" type="text" class="form-control">
-      <div *ngIf="deliveryForm?.get('branchName')?.touched && deliveryForm?.get('branchName')?.invalid" class="form-text text-danger">
-        اسم الفرع مطلوب
-      </div>
-    </div>
-    <div class="form-group">
       <label for="government">المحافظة</label>
       <input id="government" formControlName="government" type="text" class="form-control">
       <div *ngIf="deliveryForm?.get('government')?.touched && deliveryForm?.get('government')?.invalid" class="form-text text-danger">

@@ -23,7 +23,10 @@ export interface IOrderProduct{
     isDeleted: boolean;
     shippingCost: number;
     totalCost?: number;
-    orderProducts: IOrderProduct[];
+    orderProducts: {
+      $id: string;
+      $values :IOrderProduct[];
+    }
     branchId?: number;
     deliveryId?: string;
     merchantId?: number;

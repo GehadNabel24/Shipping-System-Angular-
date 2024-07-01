@@ -20,7 +20,7 @@
           </div>
           <div class="card-body text-secondary d-flex flex-column justify-content-between">
             <h5 class="card-title mb-3">{{ statusCount.count }}</h5>
-            <button type="button" class="btn btn-secondary mt-auto" [routerLink]="['/employee/order-list']">استعلام</button>
+            <button type="button" class="btn btn-secondary mt-auto" [routerLink]="['/employee/order-list',statusCount.status]">استعلام</button>
           </div>
         </div>
       </div>

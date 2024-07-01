@@ -44,6 +44,20 @@
     padding: 10px;
 }
 
+.nav-item .dropdown-item a:hover {
+    margin-right: 5px;
+    transition: ease;
+}
+
+.nav-item .dropdown-item:active {
+    background-color: #748aa1;
+}
+.nav-item:hover{
+    margin-right: 5px;
+    transition: ease;
+    color: #424e5a;
+}
+
 @media screen and (max-width: 900px) {
     .aside a, .aside h4 {
         display: none !important;
