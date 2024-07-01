@@ -59,16 +59,18 @@
             <td>{{ employee.phone }}</td>
             <td>{{ employee.branchName }}</td>
             <td>
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckChecked"
-                    [checked]="employee.status"
-                  />
-                </div>
-              </td>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckChecked"
+                  [checked]="employee.status"
+                  (change)="toggleStateStatus(employee)"
+                />
+              </div>
+            </td>
+            
             <td>{{ employee.role }}</td>
             <td>
               <a class="btn text-danger" (click)="viewEmployee(employee.id)">

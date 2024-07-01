@@ -24,6 +24,9 @@ import { EmployeeService } from '../shared/Services/employee.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchPipe } from '../shared/pipe/search.pipe';
 import { PaginationPipe } from '../shared/pipe/pagination.pipe';
+import { SearchStatePipe } from '../shared/pipe/search-state.pipe';
+import { StateService } from '../shared/Services/state.service';
+import { BranchService } from '../shared/Services/branch.service';
 
 @NgModule({
   declarations: [
@@ -52,9 +55,10 @@ import { PaginationPipe } from '../shared/pipe/pagination.pipe';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SearchPipe
+    SearchPipe,
+    SearchStatePipe
   ],
-  providers: [EmployeeService]
+  providers: [EmployeeService , StateService , BranchService]
 
 })
 export class EmployeeModule { }

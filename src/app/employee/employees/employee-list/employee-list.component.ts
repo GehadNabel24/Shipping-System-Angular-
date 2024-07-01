@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IEmployeeData } from '../../../shared/models/Employees';
 import { EmployeeService } from '../../../shared/Services/employee.service';
 import Swal from 'sweetalert2';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-list',
@@ -15,7 +15,7 @@ export class EmployeeListComponent implements OnInit {
   searchterm = '';
   recordLimit: number = 5;
 
-  constructor(private empService: EmployeeService , private router: Router) {}
+  constructor(private empService: EmployeeService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadEmployees();
@@ -67,12 +67,42 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
+  toggleStateStatus(emp: IEmployeeData): void {
+    const previousStatus = emp.status;
+    emp.status = !emp.status;
+  
+    this.empService.updateEmployeeStatus(emp.id, emp.status).subscribe({
+      next: (response) => {
+        console.log('Update successful:', response);
+        Swal.fire(
+          'تحديث الحالة!',
+          'تم تحديث حالة الموظف بنجاح.',
+          'success'
+        );
+  
+        const index = this.employeesData.findIndex(e => e.id === emp.id);
+        if (index !== -1) {
+          this.employeesData[index].status = emp.status;
+        }
+      },
+      error: (error: any) => {
+        console.error('Update error:', error);
+        Swal.fire(
+          'تحديث الحالة!',
+          `حدث خطأ أثناء تحديث الحالة: ${error.error}`,
+          'error'
+        );
+  
+        emp.status = previousStatus;
+      }
+    });
+  }
+
   viewEmployee(employeeId: string): void {
     this.router.navigate(['/employee/employee', employeeId]);
-}
+  }
 
-editEmployee(employeeId: string): void {
+  editEmployee(employeeId: string): void {
     this.router.navigate(['/employee/employee', employeeId]);
-}
-  
+  }
 }

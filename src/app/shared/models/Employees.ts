@@ -1,10 +1,11 @@
 export interface IEmployeeData {
-    id:string,
-    name :string,
-    email:string,
-    phone:string,
-    status:boolean,
-    branchName?:string,
-    role:string,
-    password:string
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    branchId: number;  
+    branchName: string;  
+    role: string;
+    password: string;
+    status: boolean;
 }
