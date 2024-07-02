@@ -104,7 +104,7 @@
                     <label for="shippingType" class="form-label">نوع الشحن</label>
                     <select id="shippingType" class="form-select" formControlName="shippingType">
                         <option value="" selected>اختر نوع الشحن</option>
-                        <option *ngFor="let type of shippingTypes" [value]="type">{{ type }}</option>
+                        <option *ngFor="let shippingType  of shippingTypes" [value]="shippingType ">{{ shippingType  }}</option>
                     </select>
                 </div>
 
@@ -112,7 +112,7 @@
                     <label for="paymentType" class="form-label">نوع الدفع</label>
                     <select id="paymentType" class="form-select" formControlName="paymentType">
                         <option value="" selected>اختر نوع وسيلة الدفع</option>
-                        <option *ngFor="let type of paymentTypes" [value]="type">{{ type }}</option>
+                        <option *ngFor="let paymentType  of paymentTypes" [value]="paymentType ">{{ paymentType  }}</option>
                     </select>
                 </div>
 

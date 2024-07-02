@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ICityDTO } from '../../shared/Models/ICityDTO';
@@ -13,29 +13,36 @@ import { city } from '../../shared/Models/city';
 import { Branch } from '../../shared/Models/branch';
 import { StateService } from './../../shared/Services/state.service';
 import { Government } from '../../shared/Models/government';
-import { OrderType, PaymentType, ShippingType } from '../../shared/Models/order/constants';
+import { OrderStatus, OrderType, PaymentType, ShippingType } from '../../shared/Models/order/constants';
+import { TranslationService } from './../../shared/Services/translation.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-order-form',
   templateUrl: './order-form.component.html',
   styleUrls: ['./order-form.component.css']
 })
-export class OrderFormComponent implements OnInit {
+export class OrderFormComponent implements OnInit ,OnDestroy{
   orderForm: FormGroup;
   states: Government[] = [];
   cities: city[] = [];
   branches: Branch[] = [];
-  shippingTypes = Object.values(ShippingType);
-  paymentTypes = Object.values(PaymentType);
-  orderTypes = Object.values(OrderType);
+  shippingTypes = Object.values(ShippingType).filter(val => isNaN(Number(val)));
+  paymentTypes = Object.values(PaymentType).filter(val => isNaN(Number(val)));
+  orderTypes = Object.keys(OrderType).filter(val => isNaN(Number(val)));
   isEditMode: boolean = false;
   orderId: number = 0;
   Products:IOrderProduct[] = [{}] as IOrderProduct[];
+  orderSubscription: any;
+  citySubscription: any;
+  branchSubscription: any;
+  actionSubscription: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private stateService: StateService
+    private stateService: StateService,
+    private translationService: TranslationService
   ) {
     this.orderForm = new FormGroup({
       type: new FormControl('', Validators.required),
@@ -74,6 +81,7 @@ export class OrderFormComponent implements OnInit {
       },
       error: err => {
         console.log(err);
+        Swal.fire('خطأ', 'حدث خطأ في تحميل بيانات المحافظات', 'error');
       }
     });
   }
@@ -83,9 +91,8 @@ export class OrderFormComponent implements OnInit {
   }
 
   loadOrderData(id: number): void {
-    this.orderService.getOrderReceipt(id).subscribe({
+    this.orderSubscription = this.orderService.getOrderReceipt(id).subscribe({
       next: (order: IOrder) => {
-        console.log(order);
       this.orderForm.patchValue({
         ...order,
         orderProducts: []
@@ -104,6 +111,7 @@ export class OrderFormComponent implements OnInit {
       },
       error: err => {
         console.log(err);
+        Swal.fire('خطأ', 'حدث خطأ في تحميل بيانات الطلب', 'error');
       }
     });
   }
@@ -111,19 +119,24 @@ export class OrderFormComponent implements OnInit {
   onStateChange(event: any): void {
     const state = event.target.value;
     if (state) {
-      this.orderService.getCitiesByGovernment(state).subscribe((data: any) => {
-        console.log(data.$values);
-        this.cities = data.$values;
-        this.orderForm.get('cityName')?.enable();
-      });
-      this.orderService.getBranchesByGovernment(state).subscribe({
+      this.citySubscription = this.orderService.getCitiesByGovernment(state).subscribe({
         next: (data: any) => {
-          console.log(data.$values);
+          this.cities = data.$values;
+          this.orderForm.get('cityName')?.enable();
+        },
+        error: err => {
+          console.log(err);
+          Swal.fire('خطأ', 'حدث خطأ في تحميل بيانات المدن', 'error');
+        }
+      });
+      this.branchSubscription = this.orderService.getBranchesByGovernment(state).subscribe({
+        next: (data: any) => {
           this.branches = data.$values;
           this.orderForm.get('branchName')?.enable();
         },
         error: err => {
           console.log(err);
+          Swal.fire('خطأ', 'حدث خطأ في تحميل بيانات الفروع', 'error');
         }
       });
     } else {
@@ -158,55 +171,57 @@ export class OrderFormComponent implements OnInit {
   onSubmit(): void {
     if (this.orderForm.valid) {
       this.orderForm.get('totalWeight')?.enable();
-    const formValues = this.orderForm.value;
+      const formValues = this.orderForm.value;
 
-    // Extract values from form controls
-    const type = this.orderForm.controls['type'].value;
-    const shippingType = this.orderForm.controls['shippingType'].value;
-    const paymentType = this.orderForm.controls['paymentType'].value;
+      const type = this.orderForm.controls['type'].value;
+      const shippingType = this.orderForm.controls['shippingType'].value;
+      const paymentType = this.orderForm.controls['paymentType'].value;
 
-    // Map the extracted values to their respective enums
-    const mappedType = OrderType[type as keyof typeof OrderType];
-    const mappedShippingType = ShippingType[shippingType as keyof typeof ShippingType];
-    const mappedPaymentType = PaymentType[paymentType as keyof typeof PaymentType];
+      const mappedType = this.translationService.mapOrderType(type);
+      const mappedShippingType = this.translationService.mapShippingType(shippingType);
+      const mappedPaymentType = this.translationService.mapPaymentType(paymentType);
 
-    // Construct the final formData object
-    const formData = {
-      ...formValues,
-      type: mappedType,
-      shippingType: mappedShippingType,
-      paymentType: mappedPaymentType,
-    };
-
-    console.log(formData);
-
+      const formData = {
+        ...formValues,
+        type: mappedType,
+        shippingType: mappedShippingType,
+        paymentType: mappedPaymentType,
+      };
+  
       if (this.isEditMode) {
-        console.log(this.orderId);
-        this.orderService.editOrder(this.orderId, formData).subscribe({
+        this.actionSubscription = this.orderService.editOrder(this.orderId, formData).subscribe({
           next: (data: any) => {
-            console.log(data);
+            Swal.fire('نجاح!', 'تم تعديل الطلب بنجاح', 'success');
             this.navigateToDashboard();
           },
           error: err => {
             console.log(err);
+            Swal.fire('خطأ', 'حدث خطأ في تعديل الطلب', 'error');
           }
         });
       } else {
-        this.orderService.addOrder(formData).subscribe({
+        this.actionSubscription = this.orderService.addOrder(formData).subscribe({
           next: (data: any) => {
-            console.log(data);
+            Swal.fire('نجاح!', 'تم اضافة الطلب بنجاح', 'success');
             this.navigateToDashboard();
           },
           error: err => {
             console.log(err);
+            Swal.fire('خطأ', 'حدث خطأ في اضافة الطلب', 'error');
           }
         });
       }
-      console.log(formData);
     }
   }
-
+  
   navigateToDashboard(): void {
     this.router.navigate(['/shared/dashboard']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.orderSubscription) this.orderSubscription.unsubscribe();
+    if (this.citySubscription) this.citySubscription.unsubscribe();
+    if (this.branchSubscription) this.branchSubscription.unsubscribe();
+    if (this.actionSubscription) this.actionSubscription.unsubscribe();
   }
 }

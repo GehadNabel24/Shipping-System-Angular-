@@ -1,18 +1,18 @@
 export enum ShippingType {
-   SameDayDelivery = 'توصيل_في_نفس_اليوم',
-   FastDelivery = 'توصيل_سريع',
-   RegularDelivery = 'توصيل_عادي'
+   'توصيل_في_نفس_اليوم',
+   'توصيل_سريع',
+   'توصيل_عادي'
  }
  
  export enum PaymentType {
-   PayOnDelivery = 'واجبة_التحصيل',
-   Prepaid = 'دفع_مقدم',
-   ExchangePackage = 'طرد_مقابل_طرد'
+   'واجبة_التحصيل',
+   'دفع_مقدم',
+   'طرد_مقابل_طرد'
  }
  
  export enum OrderType {
-   BranchPickup = 'تسليم_فالفرع',
-   HomeDelivery = 'توصيل_الي_المنزل'
+    'تسليم_فالفرع'= 0,
+   'توصيل_الي_المنزل' = 1
  }
  
  export enum OrderStatus {
