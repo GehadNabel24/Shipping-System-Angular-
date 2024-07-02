@@ -1,8 +1,8 @@
-
 import { Component, OnInit } from '@angular/core';
-import { Delivery } from '../../../shared/Models/Delivery/delivery';
+import { Delivery, IDelivery, IDeliverySearch } from '../../../shared/Models/Delivery/delivery';
 import { DeliveryService } from '../../../shared/Services/delivery.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-delivery-list',
@@ -12,8 +12,15 @@ import Swal from 'sweetalert2';
 export class DeliveryListComponent implements OnInit {
   deliveries: Delivery[] = [];
   allDeliveries: Delivery[] = [];
+  searchterm = '';
+  recordLimit: number = 5;
+  delivery: IDeliverySearch = {
+    id: 0,
+    name: '',
+    stateId: 0
+  };
 
-  constructor(private deliveryService: DeliveryService) { }
+  constructor(private deliveryService: DeliveryService,private router: Router) { }
 
   ngOnInit(): void {
     this.loadDeliveries();
@@ -63,25 +70,40 @@ export class DeliveryListComponent implements OnInit {
       }
     });
   }
-
-  changeStatus(id: string, event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
-    this.deliveryService.changeStatus(id, checked).subscribe(() => {
-      this.loadDeliveries();
-    });
-  }
-
-  onSearch(searchTerm: string): void {
-    if (searchTerm) {
-      this.deliveries = this.allDeliveries.filter(delivery =>
-        delivery.name.includes(searchTerm) ||
-        delivery.email.includes(searchTerm) ||
-        delivery.phone.includes(searchTerm) ||
-        delivery.branchName.includes(searchTerm)
-      );
-    } else {
-      this.deliveries = [...this.allDeliveries];
+  toggleStateStatus(state: Delivery): void {
+    if (!state.deliveryId) {
+        console.error('State ID is undefined');
+        Swal.fire(
+            'خطأ في تحديث الحالة!',
+            'معرف الحالة غير محدد.',
+            'error'
+        );
+        return;
     }
-  }
-}
 
+    const previousStatus = state.status;
+    state.status = !state.status;
+
+    console.log('Sending request to change status for ID:', state.id);
+    console.log('New status:', state.status);
+
+    this.deliveryService.changeStatus(state.deliveryId, state.status).subscribe({
+        next: () => {
+            Swal.fire(
+                'تحديث الحالة!',
+                'تم تحديث حالة المندوب بنجاح.',
+                'success'
+            );
+        },
+        error: (error: any) => {
+            Swal.fire(
+                'تحديث الحالة!',
+                `حدث خطأ أثناء تحديث الحالة: ${error.error || error.message}`,
+                'error'
+            );
+            console.error('Error updating state status:', error);
+            state.status = previousStatus;
+        }
+    });
+}
+}

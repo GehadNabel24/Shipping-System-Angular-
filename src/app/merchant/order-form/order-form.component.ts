@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ICityDTO } from '../../shared/Models/ICityDTO';
-import { IGovernmentDTO } from '../../shared/Models/IGovernmentDTO';
-import { IMerchantDTO } from '../../shared/Models/IMerchant';
 import { ApiService } from '../../shared/Services/api.service';
 import { IOrder } from '../../shared/Models/order/order';
 import { IOrderProduct } from './../../shared/Models/order/order';

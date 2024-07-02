@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { city } from '../../../shared/models/city';
-import { Government } from '../../../shared/models/government';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CityService } from '../../../shared/Services/city.service';
 import { GovernmentService } from '../../../shared/Services/government.service';
 import Swal from 'sweetalert2';
+import { city } from '../../../shared/Models/city';
+import { Government } from '../../../shared/Models/government';
 
 @Component({
   selector: 'app-city-form',

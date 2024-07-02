@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IState } from '../models/IState';
+import { IState } from '../Models/IState';
+
 
 @Pipe({
   name: 'searchState',

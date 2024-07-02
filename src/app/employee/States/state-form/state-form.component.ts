@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IState } from '../../../shared/models/IState';
+
 import { StateService } from '../../../shared/Services/state.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IState } from '../../../shared/Models/IState';
 
 @Component({
   selector: 'app-state-form',

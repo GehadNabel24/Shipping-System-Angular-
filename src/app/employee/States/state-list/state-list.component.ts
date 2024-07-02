@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService } from './../../../shared/Services/state.service';
-import { IState } from '../../../shared/Models/IState';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { IState } from '../../../shared/Models/IState';
+
 
 @Component({
   selector: 'app-state-list',
@@ -60,7 +61,7 @@ export class StateListComponent implements OnInit {
               'لم يتم حذف هذه المحافظة.',
               'error'
             );
-            console.error('Error deleting state:', error); 
+            console.error('Error deleting state:', error);
           }
         });
       }

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../../../shared/Services/employee.service';
 import Swal from 'sweetalert2';
-import { IEmployeeData } from '../../../shared/models/Employees';
-import { getAllBranch } from '../../../shared/models/branch';
+
 import { BranchService } from '../../../shared/Services/branch.service';
+import { getAllBranch } from '../../../shared/Models/branch';
+import { IEmployeeData } from '../../../shared/Models/Employees';
 
 @Component({
   selector: 'app-employee-form',

@@ -19,7 +19,7 @@ export class DeliveryService {
   getAllDeliveriesByState(state: string): Observable<Delivery[]> {
     return this.http.get<{ $id: string; $values: Delivery[] }>(`${this.apiUrl}`)
       .pipe(
-        map(response => response.$values.filter((delegate: any) => delegate.government === state)) 
+        map(response => response.$values.filter((delegate: any) => delegate.government === state))
       );
   }
 
@@ -39,7 +39,9 @@ export class DeliveryService {
     return this.http.delete(`${this.apiUrl}/DeleteDelivery/${id}`);
   }
 
-  changeStatus(id: string, status: boolean): Observable<any> {
-    return this.http.put(`${this.apiUrl}/ChangeStatus/${id}`, { status });
-  }
+    changeStatus(id: string, status: boolean): Observable<any> {
+      return this.http.put(`${this.apiUrl}/ChangeStatus/${id}`, { status });
+    }
+
+
 }

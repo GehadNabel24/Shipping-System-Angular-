@@ -4,6 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DeliveryService } from '../../../shared/Services/delivery.service';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { Government } from '../../../shared/Models/government';
+import { city } from '../../../shared/Models/city';
+import { Branch } from '../../../shared/Models/branch';
+import { OrderService } from '../../../shared/Services/order.service';
+import { StateService } from '../../../shared/Services/state.service';
 
 @Component({
   selector: 'app-delivery-form',
@@ -12,6 +17,8 @@ import Swal from 'sweetalert2';
 })
 export class DeliveryFormComponent implements OnInit, OnDestroy {
   deliveryForm: FormGroup;
+  states: Government[] = [];
+  branches: Branch[] = [];
   id: string | null = null;
   deliverySubscription: Subscription | undefined;
   updateSubscription: Subscription | undefined;
@@ -20,23 +27,29 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     public router: Router,
-    private deliveryService: DeliveryService
+    private deliveryService: DeliveryService,
+    private OrderService: OrderService,
+    private stateService: StateService
+
   ) {
     this.deliveryForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      branchId: [0, Validators.required],
+    //  branchId: [0],
       government: ['', Validators.required],
       address: ['', Validators.required],
       discountType: [0, Validators.required],
       companyPercent: ['', Validators.required],
-      status: [true, Validators.required],
+      //status: [true, Validators.required],
+      //stateName: ['', Validators.required],
+      branchName: [{value :'',disabled:true}, Validators.required],
       password: ['']
     });
   }
 
   ngOnInit(): void {
+
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id && this.id !== '0') {
       this.deliverySubscription = this.deliveryService.getDeliveryById(this.id).subscribe({
@@ -51,9 +64,20 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
             'error'
           );
         }
+
       });
+
     }
+    this.stateService.getGovernments().subscribe({
+      next: data => {
+        this.states = data;
+      },
+      error: err => {
+        console.log(err);
+        Swal.fire('خطأ', 'حدث خطأ في تحميل بيانات المحافظات', 'error');
+    }});
   }
+
 
   ngOnDestroy(): void {
     if (this.deliverySubscription) {
@@ -67,7 +91,9 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.deliveryForm.valid) {
       const delivery: any = this.deliveryForm.value;
+      console.log(delivery);
       if (this.id === '0') {
+
         this.updateSubscription = this.deliveryService.addDelivery(delivery).subscribe({
           next: () => {
             Swal.fire(
@@ -110,6 +136,24 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onStateChange(event: any): void {
+    const state = event.target.value;
+    if (state) {
+      this.OrderService.getBranchesByGovernment(state).subscribe({
+        next: (data: any) => {
+          this.branches = data.$values;
+          this.deliveryForm.get('branchName')?.enable();
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    } else {
+
+      this.branches = [];
+      this.deliveryForm.get('branchName')?.disable();
+    }
+  }
   onCancel(): void {
     this.router.navigate(['/employee/delivery']);
   }

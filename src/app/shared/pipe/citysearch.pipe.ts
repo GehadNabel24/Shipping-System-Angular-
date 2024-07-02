@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { city } from '../models/city';
+import { city } from '../Models/city';
+
 
 @Pipe({
   name: 'citysearch',
