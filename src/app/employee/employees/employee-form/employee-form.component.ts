@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { BranchService } from '../../../shared/Services/branch.service';
 import { getAllBranch } from '../../../shared/Models/branch';
 import { IEmployeeData } from '../../../shared/Models/Employees';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-form',
@@ -30,11 +31,15 @@ export class EmployeeFormComponent implements OnInit {
 
   isEditing: boolean = false;
 
+  form !: FormGroup;
+
   constructor(
     private empService: EmployeeService,
     private branchService: BranchService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private build: FormBuilder
+
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +58,16 @@ export class EmployeeFormComponent implements OnInit {
         this.loadEmployee(this.employeeId);
       }
     });
+
+
+    this.form = this.build.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required , Validators.email]],
+      phone: ['', [Validators.required]],
+      branchId: ['', [Validators.required]],
+      role: ['', [Validators.required]],
+      password: ['', [Validators.required , Validators.minLength(8)]]
+  });
   }
 
   loadEmployee(employeeId: string): void {

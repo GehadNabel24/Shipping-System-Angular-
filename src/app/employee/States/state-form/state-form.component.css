@@ -92,3 +92,9 @@ form{
     color: #fff;
     background-color: #D83520;
 }
+
+.buttons button{
+    width: 45%;
+    height: 37%;
+    margin: auto;
+}
