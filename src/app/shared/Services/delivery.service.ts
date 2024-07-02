@@ -29,6 +29,7 @@ export class DeliveryService {
   }
 
   addDelivery(delivery: Delivery): Observable<Delivery> {
+    console.log(delivery);
     return this.http.post<Delivery>(`${this.apiUrl}/AddDelivery`, delivery);
   }
 

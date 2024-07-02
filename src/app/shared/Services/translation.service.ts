@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OrderStatus, OrderType, PaymentType, ShippingType } from '../Models/order/constants';
+import { DiscountType } from '../Models/Delivery/enum';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,11 @@ export class TranslationService {
     "توصيل_سريع": ShippingType.توصيل_سريع,
     "توصيل_عادي": ShippingType.توصيل_عادي
   };
+
+  private arabicdiscountType: { [key: string]: DiscountType } = {
+    "نسبة_مئوية": DiscountType.نسبة_مئوية,
+    "رقم": DiscountType.رقم
+  };
   
   translateToEnglish(arabic: string): string {
     return this.arabicToEnglish[arabic] || arabic;
@@ -68,5 +74,9 @@ export class TranslationService {
 
   mapShippingType(type: string): ShippingType {
     return this.arabicToShippingType[type];
+  }
+
+  mapDiscountType(type: string): DiscountType {
+    return this.arabicdiscountType[type];
   }
 }

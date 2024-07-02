@@ -9,6 +9,8 @@ import { city } from '../../../shared/Models/city';
 import { Branch } from '../../../shared/Models/branch';
 import { OrderService } from '../../../shared/Services/order.service';
 import { StateService } from '../../../shared/Services/state.service';
+import { DiscountType } from '../../../shared/Models/Delivery/enum';
+import { TranslationService } from '../../../shared/Services/translation.service';
 
 @Component({
   selector: 'app-delivery-form',
@@ -22,34 +24,30 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
   id: string | null = null;
   deliverySubscription: Subscription | undefined;
   updateSubscription: Subscription | undefined;
-
+  discountTypes = Object.values(DiscountType).filter(val => isNaN(Number(val)));
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     public router: Router,
     private deliveryService: DeliveryService,
     private OrderService: OrderService,
-    private stateService: StateService
-
+    private stateService: StateService,
+    private translationService: TranslationService
   ) {
     this.deliveryForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-    //  branchId: [0],
       government: ['', Validators.required],
       address: ['', Validators.required],
-      discountType: [0, Validators.required],
-      companyPercent: ['', Validators.required],
-      //status: [true, Validators.required],
-      //stateName: ['', Validators.required],
-      branchName: [{value :'',disabled:true}, Validators.required],
+      discountType: ['', Validators.required],
+      companyPercentage: [0, Validators.required],
+      branchId: [{value :'',disabled:true}, Validators.required],
       password: ['']
     });
   }
 
   ngOnInit(): void {
-
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id && this.id !== '0') {
       this.deliverySubscription = this.deliveryService.getDeliveryById(this.id).subscribe({
@@ -64,9 +62,7 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
             'error'
           );
         }
-
       });
-
     }
     this.stateService.getGovernments().subscribe({
       next: data => {
@@ -91,9 +87,13 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.deliveryForm.valid) {
       const delivery: any = this.deliveryForm.value;
-      console.log(delivery);
+      const serializedGovernment = this.deliveryForm.controls['government'].value;
+      const government = JSON.parse(serializedGovernment);
+      delivery.government = government.name;
+      const discountType = this.deliveryForm.controls['discountType'].value;
+      const mappedType = this.translationService.mapDiscountType(discountType);
+      delivery.discountType = mappedType;
       if (this.id === '0') {
-
         this.updateSubscription = this.deliveryService.addDelivery(delivery).subscribe({
           next: () => {
             Swal.fire(
@@ -137,23 +137,27 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
   }
 
   onStateChange(event: any): void {
-    const state = event.target.value;
+    const serializedState = event.target.value;
+    const state = JSON.parse(serializedState);
+    console.log(state);
     if (state) {
-      this.OrderService.getBranchesByGovernment(state).subscribe({
+      console.log(state);
+      this.OrderService.getBranchesByGovernment(state.id).subscribe({
         next: (data: any) => {
+          console.log(data);
           this.branches = data.$values;
-          this.deliveryForm.get('branchName')?.enable();
+          this.deliveryForm.get('branchId')?.enable();
         },
         error: err => {
           console.log(err);
         }
       });
     } else {
-
       this.branches = [];
-      this.deliveryForm.get('branchName')?.disable();
+      this.deliveryForm.get('branchId')?.disable();
     }
   }
+  
   onCancel(): void {
     this.router.navigate(['/employee/delivery']);
   }
@@ -161,4 +165,9 @@ export class DeliveryFormComponent implements OnInit, OnDestroy {
   navigateBack(): void {
     this.router.navigate(['/employee/delivery']);
   }
+
+  serializeState(state: any): string {
+    return JSON.stringify(state);
+  }
+  
 }
