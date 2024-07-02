@@ -85,6 +85,7 @@ export class BranchFormComponent implements OnInit {
           },
         });
       } else {
+        //------------------------ type updated with (any) ----------------------------------------
         this._BranchService.addBranch(branch).subscribe({
           next: (response) => {
             console.log('Branch added successfully', response);

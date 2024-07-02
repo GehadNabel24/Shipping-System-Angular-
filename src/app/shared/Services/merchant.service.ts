@@ -2,12 +2,13 @@ import { Injectable ,OnInit} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from './environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MerchantService implements OnInit {
-  baseUrl: string = 'http://localhost:5247/api';
+  baseUrl: string = `${environment.baseUrl}/api`;
   header_object: HttpHeaders|undefined ;
   token:string =  '';
   constructor(private http: HttpClient,private router:Router) {

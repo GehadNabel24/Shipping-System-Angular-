@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'change-password' , component: ChangePasswordComponent},
   { path: 'order-list' , component: OrderListComponent},
   { path: 'order-list/:status' , component: OrderListComponent},
-  { path: 'order-report' , component: OrderReportComponent},
+  { path: 'order-report/:id' , component: OrderReportComponent},
   { path: '**' , component: HomeComponent}
 ];
 

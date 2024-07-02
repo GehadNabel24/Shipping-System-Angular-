@@ -11,11 +11,12 @@
 }
   
 .weight-management h2 {
-    margin-bottom: 40px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
     color: #333;
     text-align: right;
     border-bottom: #333 solid 1px;
-    width: 40vw;
+    width: 60vw;
 }
   
 .form-group {

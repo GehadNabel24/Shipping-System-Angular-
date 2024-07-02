@@ -3,7 +3,7 @@ import { Injectable ,OnInit} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { loginData } from '../Models/loginData';
-
+import { environment } from './environment';
 import { Router } from '@angular/router';
 import { IchangePassword } from '../Models/IchangePassword';
 
@@ -12,7 +12,7 @@ import { IchangePassword } from '../Models/IchangePassword';
 })
 export class AccountService implements OnInit {
 
-  baseUrl: string = 'http://localhost:37667/api';
+  baseUrl: string = `${environment.baseUrl}`;
   header_object: HttpHeaders|undefined ;
   token:string =  '';
   constructor(private apiService:ApiService,private http: HttpClient,private router:Router) {

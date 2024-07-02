@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OrderStatus } from '../../Models/order/constants';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../Services/order.service';
@@ -8,12 +8,13 @@ import { DeliveryService } from '../../Services/delivery.service';
 import { IOrder } from '../../Models/order/order';
 import Swal from 'sweetalert2';
 import { PdfGeneratorService } from '../../Services/pdf-generator.service';
+import { TranslationService } from '../../Services/translation.service';
 @Component({
   selector: 'app-order-list',
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.css'
 })
-export class OrderListComponent implements OnInit {
+export class OrderListComponent implements OnInit ,OnDestroy{
   @ViewChild('orderTable') orderTable!: ElementRef;
   orders:IOrder[] =[{}] as IOrder[] 
   orderStatus =Object.values(OrderStatus);
@@ -31,11 +32,17 @@ export class OrderListComponent implements OnInit {
   deliveryForm: FormGroup = new FormGroup({
     delegateName: new FormControl(this.selectedOrder.delegateName,{validators: [Validators.required]}),
   });
+  orderSubscription: any;
+  deliverySubscription: any;
+  statusSubscription: any;
+  deliveryDeligateSubscription: any;
+  actionSubscription: any;
   constructor(
     private pdfGeneratorService: PdfGeneratorService,
     private orderService: OrderService,
     private deliveryService: DeliveryService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private translationService: TranslationService
   ) { }
 
   ngOnInit(): void {
@@ -43,7 +50,8 @@ export class OrderListComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const status = params.get('status');
       if (status) {
-        this.loadFilteredOrders(status);
+        let translatedStatus = this.translationService.translateToArabic(status);
+        this.loadFilteredOrders(translatedStatus);
       } else {
         this.loadOrders();
       }
@@ -51,25 +59,27 @@ export class OrderListComponent implements OnInit {
   }
 
   loadOrders(): void {
-    this.orderService.getAllOrders().subscribe({
+    this.orderSubscription = this.orderService.getAllOrders().subscribe({
       next: (data: any) => {
         this.orders = data.$values;
         this.filteredOrders = [...this.orders];
       },
       error: (error: any) => {
         console.error('Error fetching orders:', error);
+        Swal.fire('خطا', 'فشل تحميل بيانات الطلبات', 'error');
       }
     });
   }
 
   loadFilteredOrders(status: string): void {
-    this.orderService.getOrdersAfterFilter(status).subscribe({
+    this.orderSubscription = this.orderService.getOrdersAfterFilter(status).subscribe({
       next: (data: any) => {
         this.orders = data.$values;
         this.filteredOrders = [...this.orders];
       },
       error: (error: any) => {
         console.error('Error fetching filtered orders:', error);
+        Swal.fire('خطا', 'فشل تحميل بيانات الطلبات', 'error');
       }
     });
   }
@@ -78,7 +88,7 @@ export class OrderListComponent implements OnInit {
     if (this.startDate && this.endDate) {
       const start = new Date(this.startDate);
       const end = new Date(this.endDate);
-      this.filteredOrders = this.orders.filter(order => {
+      this.filteredOrders = this.filteredOrders.filter(order => {
         const orderDate = new Date(order.orderDate!);
         return orderDate >= start && orderDate <= end;
       });
@@ -87,7 +97,6 @@ export class OrderListComponent implements OnInit {
 
   checkUserRole(): void {
     const role = localStorage.getItem('role');
-    console.log(role);
     this.canEdit = role === 'Admin' || role === 'تاجر' || role === 'موظف';
   }
 
@@ -113,15 +122,13 @@ export class OrderListComponent implements OnInit {
   }
 
   getDelegatesByState(state: string) {
-    console.log(state);
-    this.deliveryService.getAllDeliveriesByState(state).subscribe({
+    this.deliverySubscription = this.deliveryService.getAllDeliveriesByState(state).subscribe({
       next: (data: any) => {
-        console.log(data);
         this.delegates = data;
-        console.log(this.delegates);
       },
       error: (error: any) => {
         console.error('Error fetching deliveries:', error);
+        Swal.fire('خطا', 'فشل تحميل بيانات المناديب', 'error');
       }
     });
   }
@@ -165,7 +172,7 @@ export class OrderListComponent implements OnInit {
     let modalElement;
     if(change=="status"){
       const newStatus = this.statusForm.controls['status'].value;
-      this.orderService.changeOrderStatus(this.selectedOrder.id, newStatus).subscribe({
+      this.statusSubscription = this.orderService.changeOrderStatus(this.selectedOrder.id, newStatus).subscribe({
         next: (data: any) => {
           this.loadOrders();
           modalElement = document.getElementById('UpdateStatus');
@@ -173,15 +180,17 @@ export class OrderListComponent implements OnInit {
             modalElement?.classList.remove('fade', 'show');
             modalElement?.setAttribute('style', 'display: none;');
           }
+          Swal.fire('تم تغيير حالة الطلب', 'تم تغيير حالة الطلب بنجاح', 'success');
         },
         error: (error: any) => {
           console.error('Error changing order status:', error);
+          Swal.fire('خطا', 'فشل تغيير حالة الطلب', 'error');
         }
       })
     }else if(change=="delivery"){
       const newDelegate = this.deliveryForm.value.delegateName;
       this.selectedOrder.delegateName = newDelegate;
-      this.orderService.changeOrderDelivery(this.selectedOrder.id,newDelegate ).subscribe({
+      this.deliveryDeligateSubscription = this.orderService.changeOrderDelivery(this.selectedOrder.id,newDelegate ).subscribe({
         next: (data: any) => {
           this.loadOrders();
           modalElement = document.getElementById('UpdateDelivery');
@@ -189,9 +198,11 @@ export class OrderListComponent implements OnInit {
             modalElement?.classList.remove('fade', 'show');
             modalElement?.setAttribute('style', 'display: none;');
           }
+          Swal.fire('تم تغيير المندوب', 'تم تغيير المندوب بنجاح', 'success');
         },
         error: (error: any) => {
           console.error('Error changing order status:', error);
+          Swal.fire('خطا', 'فشل تغيير المندوب', 'error');
         }
       })
     }
@@ -218,6 +229,7 @@ export class OrderListComponent implements OnInit {
           this.orderService.deleteOrder(id).subscribe({
             next: () => {
               this.orders = this.orders.filter(p => p.id !== id);
+              this.filteredOrders = this.orders;
               Swal.fire(
                 'حذف طلب!',
                 'تم حذف هذا الطلب.',
@@ -236,5 +248,13 @@ export class OrderListComponent implements OnInit {
         }
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    if(this.orderSubscription) this.orderSubscription.unsubscribe();
+    if(this.actionSubscription) this.actionSubscription.unsubscribe();
+    if(this.statusSubscription) this.statusSubscription.unsubscribe();
+    if(this.deliverySubscription) this.deliverySubscription.unsubscribe();
+    if(this.deliveryDeligateSubscription) this.deliveryDeligateSubscription.unsubscribe();
   }
 }

@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 import { IPermission, IPermissionResponse } from '../Models/Permissions/permission';
 import { Observable, mergeMap, throwError } from 'rxjs';
 import { IRoleWithAllClaims } from '../Models/Permissions/PermissionOnRole';
+import { environment } from './environment';
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionsService {
-  apiUrl: string = 'http://localhost:37667/api/Administration';
+  apiUrl: string = `${environment.baseUrl}/Administration`;
   constructor(private http: HttpClient) { }
   getPermissions():Observable<IPermissionResponse[]> {
     let token = localStorage.getItem('token');

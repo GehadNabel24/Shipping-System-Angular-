@@ -6,11 +6,12 @@ import { IOrder } from '../Models/order/order';
 import { city } from '../Models/city';
 import { Branch } from '../Models/branch';
 import { OrderStatus } from '../Models/order/constants';
+import { environment } from './environment';
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:37667/api/Order';
+  private apiUrl = `${environment.baseUrl}/Order`;
 
   constructor(private http: HttpClient) {}
 
