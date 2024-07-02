@@ -2,12 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../../../shared/Services/employee.service';
 import Swal from 'sweetalert2';
-<<<<<<< HEAD
-
-=======
-import { IEmployeeData } from '../../../shared/Models/Employees';
-import { getAllBranch } from '../../../shared/Models/branch';
->>>>>>> 567081685acc41f24c0369992a6a85078cdc9092
 import { BranchService } from '../../../shared/Services/branch.service';
 import { getAllBranch } from '../../../shared/Models/branch';
 import { IEmployeeData } from '../../../shared/Models/Employees';
