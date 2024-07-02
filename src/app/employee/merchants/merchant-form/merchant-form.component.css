@@ -4,3 +4,12 @@
     min-height: 100vh;
 }
 
+.submit:hover{
+  color: white;
+  background-color: #898787;
+}
+
+.cancel:hover{
+  color: #fff;
+  background-color: #D83520;
+}

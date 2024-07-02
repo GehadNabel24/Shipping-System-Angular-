@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <div class="table-responsive text-center">
+  <div class="table-responsive text-center" *ngIf="!loading">
     <table class="table">
       <thead>
         <tr>
@@ -98,4 +98,9 @@
       <button class="btn">></button>
     </span>
   </div>
+</div>
+
+
+<div class="text-center w-100" *ngIf="loading">
+  <app-spinner></app-spinner>
 </div>

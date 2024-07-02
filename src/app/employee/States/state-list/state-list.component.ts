@@ -16,6 +16,7 @@ export class StateListComponent implements OnInit {
   States: IState[] =[];
   searchterm = '';
   recordLimit: number = 5;
+  loading : boolean = false;
 
   constructor(private stateService: StateService, private router: Router) {}
 
@@ -24,13 +25,21 @@ export class StateListComponent implements OnInit {
   }
 
   loadStates(): void {
+    this.loading = true;
     this.stateService.getGovernments().subscribe({
       next: (response) => {
         this.States = response;
         console.log(this.States);
+        this.loading = false;
       },
       error: (error) => {
+        Swal.fire(
+          'عرض !',
+          'حدث خطأ في عرض المحافظات',
+          'error'
+        );
         console.error('Error fetching states:', error);
+        this.loading = false;
       }
     });
   }

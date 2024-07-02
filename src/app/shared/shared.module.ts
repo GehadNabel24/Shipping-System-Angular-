@@ -1,3 +1,4 @@
+import { SpinnerComponent } from './Components/spinner/spinner.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './Components/home/home.component';
@@ -14,7 +15,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 
-
 @NgModule({
   declarations: [
     HomeComponent,
@@ -23,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     ChangePasswordComponent,
     OrderListComponent,
     OrderReportComponent,
-    AsideComponent
+    AsideComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +42,7 @@ import { HttpClientModule } from '@angular/common/http';
     OrderReportComponent,
     AsideComponent,
     ReactiveFormsModule,
+    SpinnerComponent
   ],
   providers: [PasswordService]
 })

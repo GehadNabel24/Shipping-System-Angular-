@@ -67,3 +67,14 @@
     border: 1px solid #D83520;
     cursor: pointer;
 }
+
+.submit:hover{
+    color: white;
+    background-color: #898787;
+  }
+  
+  .cancel:hover{
+    color: #fff;
+    background-color: #D83520;
+  }
+  

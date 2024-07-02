@@ -95,3 +95,14 @@ hr {
   color: rgb(180, 175, 175);
   width: 30%;
 }
+
+
+.submit:hover{
+  color: white;
+  background-color: #898787;
+}
+
+.cancel:hover{
+  color: #fff;
+  background-color: #D83520;
+}

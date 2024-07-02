@@ -15,6 +15,7 @@ export class EmployeeListComponent implements OnInit {
   employeesData: IEmployeeData[] = [];
   searchterm = '';
   recordLimit: number = 5;
+  loading :boolean = false;
 
   constructor(private empService: EmployeeService, private router: Router) {}
 
@@ -23,12 +24,20 @@ export class EmployeeListComponent implements OnInit {
   }
 
   loadEmployees(): void {
+    this.loading = true;
     this.empService.getAllEmployees().subscribe({
       next: (response) => {
         this.employeesData = response;
+        this.loading = false;
       },
       error: (error) => {
+        Swal.fire(
+          'عرض !',
+          'حدث خطأ في عرض الموظفين',
+          'error'
+        );
         console.error('Error fetching employees:', error);
+        this.loading = false;
       }
     });
   }

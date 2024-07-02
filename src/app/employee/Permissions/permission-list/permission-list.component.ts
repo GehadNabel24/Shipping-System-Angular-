@@ -14,14 +14,19 @@ export class PermissionListComponent implements OnInit,OnDestroy {
   permissions: IPermission[]=[];
   PermissionSubscription: any;
   PermissionDeleteSubscription: any;
+  loading : boolean = false;
+
+
   constructor(public permissionsService: PermissionsService) {}
   ngOnInit(): void {
     this.getPermissions();
   }
   getPermissions(): void {
+    this.loading = true;
     this.PermissionSubscription = this.permissionsService.getPermissions().subscribe({
       next: (response: any) => {
         this.permissions = response.$values;
+        this.loading = false;
       },
       error: (err) => {
         Swal.fire(
@@ -30,6 +35,7 @@ export class PermissionListComponent implements OnInit,OnDestroy {
           'error'
         );
         console.log(err.message);
+        this.loading = false;
       }
     });
   }

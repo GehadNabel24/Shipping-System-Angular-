@@ -18,6 +18,8 @@ export class BranchListComponent implements OnInit {
     name: '',
     stateId: 0,
   };
+
+  loading : boolean = false;
   constructor(private _BranchService: BranchService, private _Router: Router) {}
 
   ngOnInit(): void {
@@ -25,6 +27,7 @@ export class BranchListComponent implements OnInit {
   }
 
   loadBranches(): void {
+    this.loading = true;
     this._BranchService.getBranches().subscribe(
       (branches) => {
         this.branchData = branches;
@@ -32,10 +35,18 @@ export class BranchListComponent implements OnInit {
         if (this.branchData.length === 0) {
           this.showServerNotWorkingAlert();
         }
+
+        this.loading = false;
       },
       (error) => {
+        Swal.fire(
+          'عرض !',
+          'حدث خطأ في عرض الفروع',
+          'error'
+        );
         console.error('Error loading branches:', error);
         this.showApiConnectionErrorAlert();
+        this.loading = false;
       }
     );
   }

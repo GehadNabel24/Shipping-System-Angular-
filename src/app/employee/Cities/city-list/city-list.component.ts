@@ -13,17 +13,27 @@ export class CityListComponent implements OnInit {
   searchterm = '';
   recordLimit: number = 5;
 
+  loading : boolean = false;
+
   constructor(private _CityService: CityService) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this._CityService.getAllcities(1).subscribe({
       next: (response) => {
         this.cityData = response;
         console.log(this.cityData);
+        this.loading = false;
       },
       error: (err) => {
+        Swal.fire(
+          'عرض !',
+          'حدث خطأ في عرض المدن',
+          'error'
+        );
         console.error('Error fetching cities', err);
         this.showApiConnectionErrorAlert();
+        this.loading = false;
       },
     });
   }

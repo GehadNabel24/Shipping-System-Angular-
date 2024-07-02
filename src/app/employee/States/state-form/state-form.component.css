@@ -67,7 +67,7 @@
 }
 
 .input-container{
-    width: 33.3%;
+    width: 75%;
 }
 hr{
     color: rgb(180, 175, 175);
@@ -79,5 +79,16 @@ form{
     padding: 20px;
 }
 .row{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2 , 1fr);
+}
+
+.submit:hover{
+    color: white;
+    background-color: #898787;
+}
+
+.cancel:hover{
+    color: #fff;
+    background-color: #D83520;
 }

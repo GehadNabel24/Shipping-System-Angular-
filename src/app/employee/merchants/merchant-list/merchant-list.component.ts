@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../shared/Services/api.service';
 import { Router } from '@angular/router';
 import { IMerchantDTO } from '../../../shared/Models/IMerchant';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-merchant-list',
@@ -74,17 +75,27 @@ merchantsForTest: IMerchantDTO[] = [
   }
 ];
 
+loading : boolean = false;
+
   constructor(private apiService:ApiService,private router:Router){}
 
   ngOnInit(): void {
+    this.loading = true;
     this.apiService.get<any>('/Merchant').subscribe({
       next:(res)=>{
           console.log(res);
        // this.merchants=res
        this.merchants=this.merchantsForTest;
+       this.loading = false;
       },
       error:(err)=>{
+        Swal.fire(
+          'عرض !',
+          'حدث خطأ في عرض التجار',
+          'error'
+        );
         console.log(err)
+        this.loading = false;
       }
     })
   }

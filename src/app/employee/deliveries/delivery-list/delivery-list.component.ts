@@ -20,6 +20,7 @@ export class DeliveryListComponent implements OnInit {
     stateId: 0
   };
 
+  loading : boolean = false;
   constructor(private deliveryService: DeliveryService,private router: Router) { }
 
   ngOnInit(): void {
@@ -27,12 +28,22 @@ export class DeliveryListComponent implements OnInit {
   }
 
   loadDeliveries(): void {
+    this.loading = true;
     this.deliveryService.getAllDeliveries().subscribe({
       next: (deliveries: any) => {
         this.deliveries = deliveries.$values;
         this.allDeliveries = deliveries.$values;
+        this.loading = false;
       },
-      error: err => console.error(err)
+      error: (err) => {
+        Swal.fire(
+          'عرض !',
+          'حدث خطأ في عرض الطلبات',
+          'error'
+        );
+        console.error(err)
+        this.loading = false
+      }
     });
   }
 
