@@ -3,9 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from '../../../shared/Services/branch.service';
 import { Branch, getAllBranch } from '../../../shared/Models/branch';
-
-import { GovernmentService } from '../../../shared/Services/government.service';
 import Swal from 'sweetalert2';
+import { GovernmentService } from '../../../shared/Services/government.service';
 import { Government } from '../../../shared/Models/government';
 
 @Component({
